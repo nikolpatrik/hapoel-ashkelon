@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import Navbar from "../Navbar";
+import Navbar from "../../Navbar";
 
 export default function LeaveDetailsPage() {
   const [submitted, setSubmitted] = useState(false);

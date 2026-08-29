@@ -82,9 +82,17 @@ export default function Home() {
       <section id="contact" className="px-6 pb-24">
         <div className="mx-auto max-w-4xl rounded-[2rem] bg-white p-10 text-center shadow-xl md:p-16">
           <h2 className="text-3xl font-black text-[#102f47] md:text-4xl">רוצים להיות חלק?</h2>
-          <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">רוצים להצטרף לפעילות, לשיעור ניסיון או לקבל מידע נוסף? השאירו פרטים ונחזור אליכם.</p>
-          <a href="/leave-details" className="mt-8 inline-flex rounded-full bg-[#18b6b4] px-8 py-4 font-bold text-white transition hover:bg-[#129da0]">השאירו פרטים</a>
-          <div className="mt-7 text-sm text-slate-500">ash.sports@gmail.com · 050-4684686</div>
+          <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">רוצים להצטרף לפעילות, לשיעור ניסיון או לקבל מידע נוסף? השאירו פרטים או פנו אלינו ישירות בוואטסאפ.</p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a href="/leave-details" className="inline-flex rounded-full bg-[#18b6b4] px-8 py-4 font-bold text-white transition hover:bg-[#129da0]">השאירו פרטים</a>
+            <a href="https://wa.me/972526781740" target="_blank" rel="noopener noreferrer" className="inline-flex rounded-full border-2 border-[#18b6b4] px-8 py-4 font-bold text-[#102f47] transition hover:bg-[#18b6b4]/10" aria-label="פתיחת וואטסאפ עם ניקול">
+              WhatsApp · ניקול
+            </a>
+          </div>
+          <div className="mt-7 text-sm text-slate-500">
+            <span>ניקול · </span>
+            <a href="https://wa.me/972526781740" target="_blank" rel="noopener noreferrer" className="font-bold text-[#18b6b4] hover:underline" dir="ltr">052-6781740</a>
+          </div>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../Navbar";
+
+const RAW = "https://raw.githubusercontent.com/nikolpatrik/hapoel-ashkelon/main/";
 
 export default function Home() {
   return (
@@ -39,10 +40,10 @@ export default function Home() {
           </div>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <SportCard href="/fencing" title="סייף" image="/fencing-logo.png" description="אימונים, תחרויות ופיתוח ספורטאים צעירים." />
-            <SportCard href="/boxing" title="אגרוף" image="/boxing-logo.png" description="משמעת, כושר, ביטחון עצמי ומצוינות." />
-            <SportCard href="/table-tennis" title="טניס שולחן" image="/logo.png" description="ענף תחרותי ומהנה לכל הגילאים." />
-            <SportCard href="/rugby" title="רוגבי" image="/logo-rugby.png" description="עבודת צוות, כוח, התמדה ורוח ספורטיבית." />
+            <SportCard href="/fencing" title="סייף" image={`${RAW}fencing-logo.png`} description="אימונים, תחרויות ופיתוח ספורטאים צעירים." />
+            <SportCard href="/boxing" title="אגרוף" image={`${RAW}boxing-logo.png`} description="משמעת, כושר, ביטחון עצמי ומצוינות." />
+            <SportCard href="/table-tennis" title="טניס שולחן" image={`${RAW}logo.png`} description="ענף תחרותי ומהנה לכל הגילאים." />
+            <SportCard href="/rugby" title="רוגבי" image={`${RAW}logo-rugby.png`} description="עבודת צוות, כוח, התמדה ורוח ספורטיבית." />
           </div>
         </div>
       </section>
@@ -79,8 +80,8 @@ function Stat({ value, label }: { value: string; label: string }) {
 function SportCard({ href, title, image, description }: { href: string; title: string; image: string; description: string }) {
   return (
     <Link href={href} className="group overflow-hidden rounded-3xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <div className="relative h-52 w-full bg-[#f5f7fa]">
-        <Image src={image} alt={title} fill className="object-contain p-6 transition duration-300 group-hover:scale-105" />
+      <div className="relative flex h-52 w-full items-center justify-center bg-[#f5f7fa]">
+        <img src={image} alt={title} className="h-full w-full object-contain p-6 transition duration-300 group-hover:scale-105" />
       </div>
       <div className="p-7">
         <h3 className="text-2xl font-black text-[#102f47]">{title}</h3>

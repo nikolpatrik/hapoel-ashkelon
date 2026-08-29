@@ -5,19 +5,22 @@ const coaches = [
   {
     name: "סרגיי מסלקוב",
     role: "מאמן חרב",
-    image: null,
+    image: "sergey.jpeg",
+    href: "/fencing/sergey",
     text: "מאמן חרב בעל ניסיון של שנים. דור שני לסייפי חרב; תחת חסותו התאמן אלוף ישראל וסייפים בינלאומיים רבים.",
   },
   {
     name: "מריה מזינה",
     role: "מאמנת וסייפת אולימפית",
     image: "maria.jpeg",
+    href: "/fencing/maria",
     text: "סייפת ומאמנת אולימפית בעלת ניסיון של מעל 30 שנה. עלתה מרוסיה לישראל לפני כארבעה עשורים. תחת חסותה התאמנו סייפות אולימפיות ועולמיות רבות, ובהן שתי הסייפות הבכירות בישראל המגיעות מאשקלון.",
   },
   {
     name: "רומן טרכטנברג",
     role: "מאמן דקר",
-    image: null,
+    image: "roma.jpeg",
+    href: "/fencing/roman",
     text: "מאמן דקר בעל ניסיון של יותר משמונה שנים. בעברו סייף נבחרת ישראל בעל הישגים גבוהים, ותחת חסותו גדלו כמה מהסייפים הבכירים בעיר אשקלון.",
   },
 ];
@@ -70,15 +73,20 @@ export default function FencingPage() {
 
       <section className="bg-white px-6 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center"><div className="text-sm font-bold text-[#18b6b4]">THE COACHING TEAM</div><h2 className="mt-3 text-4xl font-black text-[#102f47]">צוות המאמנים</h2></div>
+          <div className="text-center"><div className="text-sm font-bold text-[#18b6b4]">THE COACHING TEAM</div><h2 className="mt-3 text-4xl font-black text-[#102f47]">צוות המאמנים</h2><p className="mt-4 text-slate-500">לחצו על מאמן או מאמנת כדי לקרוא פרטים נוספים.</p></div>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {coaches.map((coach) => (
-              <article key={coach.name} className="overflow-hidden rounded-3xl border border-slate-100 bg-[#f8fafc] shadow-sm">
+              <article key={coach.name} className="overflow-hidden rounded-3xl border border-slate-100 bg-[#f8fafc] shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
                 <div className="grid md:grid-cols-[180px_1fr]">
                   <div className="flex min-h-[210px] items-center justify-center bg-white p-4">
-                    {coach.image ? <img src={`${RAW}${coach.image}`} alt={coach.name} className="h-full max-h-[210px] w-full rounded-2xl object-cover" /> : <div className="text-center text-sm font-bold text-slate-400">תמונה תתווסף</div>}
+                    <img src={`${RAW}${coach.image}`} alt={coach.name} className="h-full max-h-[210px] w-full rounded-2xl object-cover object-top" />
                   </div>
-                  <div className="p-7"><h3 className="text-2xl font-black text-[#102f47]">{coach.name}</h3><div className="mt-2 font-bold text-[#18b6b4]">{coach.role}</div><p className="mt-5 leading-8 text-slate-600">{coach.text}</p></div>
+                  <div className="p-7">
+                    <h3 className="text-2xl font-black text-[#102f47]">{coach.name}</h3>
+                    <div className="mt-2 font-bold text-[#18b6b4]">{coach.role}</div>
+                    <p className="mt-5 leading-8 text-slate-600">{coach.text}</p>
+                    <a href={coach.href} className="mt-6 inline-flex rounded-full bg-[#102f47] px-6 py-3 font-bold text-white transition hover:bg-[#18b6b4]">לפרופיל המלא ←</a>
+                  </div>
                 </div>
               </article>
             ))}

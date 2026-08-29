@@ -31,12 +31,21 @@ export default function MariaPage() {
           <div className="rounded-3xl bg-white p-8 shadow-md">
             <div className="text-sm font-bold text-[#18b6b4]">ניסיון מקצועי</div>
             <h2 className="mt-3 text-3xl font-black text-[#102f47]">קריירת אימון בישראל וברוסיה</h2>
-            <p className="mt-5 leading-8 text-slate-600">לאחר סיום הקריירה כספורטאית, מריה עברה לעבודה כמאמנת. היא שימשה כמדריכה במועדון מכבי מוסקבה, שבו הייתה חברה מאז 1995, ובשנת 2015 שימשה כמאמנת נבחרת רוסיה בסיף חרב לנשים.</p>
+            <ul className="mt-5 list-disc space-y-3 pr-6 text-lg leading-8 text-slate-600">
+              <li>מאמנת במועדון מכבי מוסקבה</li>
+              <li><strong>מאמנת אישית של האלופה האולימפית טטיאנה לוגונובה</strong>, שזכתה בשתי מדליות זהב אולימפיות בתחרות הקבוצתית בדקר – בסידני 2000 ובאתונה 2004.</li>
+              <li><strong>מאמנת נבחרת רוסיה בדקר לנשים</strong> בשנת 2015.</li>
+              <li>שימשה <strong>מאמנת בכירה בנבחרות הצעירות של רוסיה בדקר לנשים</strong></li>
+              <li><strong>מאמנת ראשית של נבחרת רוסיה לנערות בדקר</strong> באליפות העולם לקדטים ולנוער.</li>
+              <li>הייתה מעורבת בעבודה עם ספורטאיות רוסיות בכירות, ובהן <strong>מרינה קסאייבה ופולינה קזמינה</strong>, שהופיעו בתחרויות עם מריה כחלק מצוות האימון.</li>
+              <li>בשנת 2025 הייתה חלק מצוות האימון של נבחרת ישראל, שזכתה <strong>במדליית ארד בתחרות הקבוצתית</strong></li>
+              <li>מחזיקה בתואר <strong>מאמנת מצטיינת של רוסיה</strong></li>
+            </ul>
           </div>
           <div className="rounded-3xl bg-[#102f47] p-8 text-white">
             <div className="text-sm font-bold text-[#7ee7e5]">הישגים והשפעה</div>
             <h2 className="mt-3 text-3xl font-black">קריירה בינלאומית עטורת הישגים</h2>
-            <ol className="mt-5 space-y-3 pr-6 text-lg leading-8 text-slate-300 list-decimal">
+            <ul className="mt-5 space-y-3 pr-6 text-lg leading-8 text-slate-300 list-disc">
               <li>אלופת ברית המועצות בסיף בדקר ב-1990, גם בתחרות האישית וגם בתחרות הקבוצתית — והיא הייתה האלופה הראשונה של ברית המועצות לנשים בדקר.</li>
               <li>סגנית אלופת ברית המועצות ברומח בקבוצה ב-1988 וב-1989.</li>
               <li>מדליית ארד באליפות העולם 1990 בתחרות האישית בדקר.</li>
@@ -50,7 +59,7 @@ export default function MariaPage() {
               <li>אלופה אולימפית בסידני 2000 בתחרות הקבוצתית בדקר.</li>
               <li>אלופת העולם 2001 בתחרות הקבוצתית בדקר.</li>
               <li>מדליית זהב במכביה 2001 בתחרות האישית בדקר.</li>
-            </ol>
+            </ul>
           </div>
         </div>
       </section>

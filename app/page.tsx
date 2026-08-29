@@ -1,6 +1,13 @@
 import Navbar from "../Navbar";
 
-const IMAGE_BASE = "https://github.com/nikolpatrik/hapoel-ashkelon/blob/main/";
+const RAW = "https://raw.githubusercontent.com/nikolpatrik/hapoel-ashkelon/main/";
+
+const sports = [
+  { title: "סייף", href: "/fencing", image: "fencing-logo.png", icon: "🤺", description: "אימונים, תחרויות ופיתוח ספורטאים צעירים במסגרת מקצועית." },
+  { title: "אגרוף", href: "/boxing", image: "boxing-logo.png", icon: "🥊", description: "משמעת, כושר, ביטחון עצמי ומצוינות." },
+  { title: "טניס שולחן", href: "/table-tennis", image: "logo.png", icon: "🏓", description: "ענף תחרותי ומהנה לכל הגילאים." },
+  { title: "רוגבי", href: "/rugby", image: "logo-rugby.png", icon: "🏉", description: "עבודת צוות, כוח, התמדה ורוח ספורטיבית." },
+];
 
 export default function Home() {
   return (
@@ -11,74 +18,80 @@ export default function Home() {
         <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full border-[28px] border-white/10" />
         <div className="absolute -left-32 -top-20 h-80 w-80 rounded-full border-[28px] border-white/10" />
         <div className="absolute -bottom-48 left-1/3 h-96 w-96 rounded-full bg-[#18b6b4]/20 blur-3xl" />
-
         <div className="relative mx-auto max-w-7xl px-6 py-24 text-center md:py-36">
-          <div className="mx-auto mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-bold backdrop-blur-sm">
-            העמותה לקידום הספורט באשקלון
-          </div>
-          <h1 className="text-4xl font-black leading-tight md:text-7xl">
-            ספורט באשקלון<br />
-            <span className="text-[#7ee7e5]">מכאן מתחילים</span>
-          </h1>
-          <p className="mx-auto mt-7 max-w-2xl text-lg leading-9 text-slate-200 md:text-xl">
-            מקדמים ספורט, מצוינות וקהילה באשקלון.<br />
-            מחברים בין ספורטאים, מאמנים ומועדוני ספורט בעיר.
-          </p>
+          <div className="mx-auto mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-bold backdrop-blur-sm">העמותה לקידום הספורט באשקלון</div>
+          <h1 className="text-4xl font-black leading-tight md:text-7xl">ספורט באשקלון<br /><span className="text-[#7ee7e5]">מכאן מתחילים</span></h1>
+          <p className="mx-auto mt-7 max-w-2xl text-lg leading-9 text-slate-200 md:text-xl">מקדמים ספורט, מצוינות וקהילה באשקלון.<br />מחברים בין ספורטאים, מאמנים ומועדוני ספורט בעיר.</p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a href="#sports" className="inline-flex rounded-full bg-white px-8 py-4 font-bold text-[#102f47] transition hover:bg-slate-100">גלו את ענפי הספורט</a>
-            <a href="#contact" className="inline-flex rounded-full border border-white/40 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-sm transition hover:bg-white/20">צרו קשר</a>
+            <a href="/leave-details" className="inline-flex rounded-full border border-white/40 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-sm transition hover:bg-white/20">שיעור ניסיון / הצטרפות</a>
           </div>
         </div>
       </section>
 
       <section className="relative -mt-10 px-6">
         <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
-          <Stat value="10+" label="ענפי ספורט" />
-          <Stat value="1000+" label="ספורטאים" />
-          <Stat value="אשקלון" label="ספורט. קהילה. מצוינות." />
+          <Stat value="4" label="ענפי ספורט פעילים באתר החדש" />
+          <Stat value="אשקלון" label="ספורטאים שמייצגים את העיר" />
+          <Stat value="מצוינות" label="קהילה • ספורט • הישגים" />
         </div>
       </section>
 
       <section id="sports" className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <span className="text-sm font-bold text-[#18b6b4]">הענפים שלנו</span>
-            <h2 className="mt-3 text-3xl font-black text-[#102f47] md:text-5xl">ספורט באשקלון</h2>
-            <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">
-              העמותה פועלת לקידום מגוון ענפי ספורט וליצירת הזדמנויות לילדים, בני נוער וספורטאים מכל רחבי אשקלון.
-            </p>
+            <span className="text-sm font-bold text-[#18b6b4]">OUR SPORTS</span>
+            <h2 className="mt-3 text-3xl font-black text-[#102f47] md:text-5xl">ענפי הספורט שלנו</h2>
+            <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">האתר המקורי מציג ארבעה ענפים מרכזיים: רוגבי, טניס שולחן, אגרוף וסיוף.</p>
           </div>
-
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <SportCard title="סייף" image={`${IMAGE_BASE}fencing-logo.png?raw=true`} description="אימונים, תחרויות ופיתוח ספורטאים צעירים." />
-            <SportCard title="אגרוף" image={`${IMAGE_BASE}boxing-logo.png?raw=true`} description="משמעת, כושר, ביטחון עצמי ומצוינות." />
-            <SportCard title="טניס שולחן" image={`${IMAGE_BASE}logo.png?raw=true`} description="ענף תחרותי ומהנה לכל הגילאים." />
-            <SportCard title="רוגבי" image={`${IMAGE_BASE}logo-rugby.png?raw=true`} description="עבודת צוות, כוח, התמדה ורוח ספורטיבית." />
+            {sports.map((sport) => (
+              <a key={sport.href} href={sport.href} className="group overflow-hidden rounded-3xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+                <div className="flex h-52 w-full items-center justify-center bg-[#f5f7fa] p-6">
+                  <img src={`${RAW}${sport.image}`} alt={sport.title} className="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
+                </div>
+                <div className="p-7">
+                  <div className="text-2xl">{sport.icon}</div>
+                  <h3 className="mt-2 text-2xl font-black text-[#102f47]">{sport.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-500">{sport.description}</p>
+                  <div className="mt-6 font-bold text-[#18b6b4]">למידע נוסף ←</div>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[#102f47] px-6 py-24 text-white">
+      <section id="about" className="bg-[#102f47] px-6 py-24 text-white">
         <div className="mx-auto max-w-6xl text-center">
           <span className="text-sm font-bold text-[#7ee7e5]">מי אנחנו</span>
-          <h2 className="mt-3 text-3xl font-black md:text-5xl">בונים את דור הספורט הבא</h2>
-          <p className="mx-auto mt-7 max-w-3xl text-lg leading-9 text-slate-300">
-            העמותה לקידום הספורט באשקלון פועלת כדי להנגיש את עולם הספורט לתושבי העיר, לקדם ספורטאים ומועדונים וליצור קהילה ספורטיבית חזקה, מקצועית ומגוונת.
-          </p>
+          <h2 className="mt-3 text-3xl font-black md:text-5xl">גוף ספורט שמייצג את אשקלון</h2>
+          <p className="mx-auto mt-7 max-w-3xl text-lg leading-9 text-slate-300">לפי האתר המקורי, העמותה מוכרת על ידי הגופים המוסמכים בישראל ועל ידי עיריית אשקלון ומפעילה מועדוני ספורט בענפים שונים. הספורטאים והקבוצות מייצגים את העיר, והמצליחים שבהם מגיעים לנבחרות ישראל ולתחרויות בינלאומיות.</p>
+          <a href="/about" className="mt-8 inline-flex rounded-full border border-white/30 px-8 py-4 font-bold hover:bg-white/10">קראו עוד על העמותה</a>
         </div>
       </section>
 
-      <section id="contact" className="px-6 py-24">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-6xl rounded-[32px] bg-white p-9 text-center shadow-xl md:p-14">
+          <span className="text-sm font-bold text-[#18b6b4]">שותפינו</span>
+          <h2 className="mt-3 text-3xl font-black text-[#102f47]">תחנה לרפואת ספורט</h2>
+          <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">האתר המקורי מציין את תחנה לרפואת ספורט בין השותפים לעמותה.</p>
+        </div>
+      </section>
+
+      <section id="contact" className="px-6 pb-24">
         <div className="mx-auto max-w-4xl rounded-[2rem] bg-white p-10 text-center shadow-xl md:p-16">
           <h2 className="text-3xl font-black text-[#102f47] md:text-4xl">רוצים להיות חלק?</h2>
-          <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">רוצים להצטרף לפעילות, לשתף פעולה או לקבל מידע נוסף? אנחנו כאן בשבילכם.</p>
-          <a href="mailto:ash.sports2@gmail.com" className="mt-8 inline-flex rounded-full bg-[#18b6b4] px-8 py-4 font-bold text-white transition hover:bg-[#129da0]">צרו איתנו קשר</a>
+          <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">רוצים להצטרף לפעילות, לשיעור ניסיון או לקבל מידע נוסף? השאירו פרטים ונחזור אליכם.</p>
+          <a href="/leave-details" className="mt-8 inline-flex rounded-full bg-[#18b6b4] px-8 py-4 font-bold text-white transition hover:bg-[#129da0]">השאירו פרטים</a>
+          <div className="mt-7 text-sm text-slate-500">ash.sports@gmail.com · 050-4684686</div>
         </div>
       </section>
 
       <footer className="bg-[#0b2234] px-6 py-10 text-center text-white">
         <div className="font-black">העמותה לקידום הספורט באשקלון</div>
         <div className="mt-2 text-sm text-slate-400">ספורט. קהילה. מצוינות.</div>
+        <div className="mt-5 flex justify-center gap-5 text-sm text-slate-400"><a href="/legacy">מורשת והנצחה</a><a href="/join-terms">תנאי הצטרפות</a><a href="/english">English</a></div>
         <div className="mt-5 text-xs text-slate-500">© {new Date().getFullYear()} כל הזכויות שמורות</div>
       </footer>
     </main>
@@ -86,25 +99,5 @@ export default function Home() {
 }
 
 function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-3xl bg-white p-8 text-center shadow-xl">
-      <div className="text-4xl font-black text-[#18b6b4]">{value}</div>
-      <div className="mt-2 font-bold text-[#102f47]">{label}</div>
-    </div>
-  );
-}
-
-function SportCard({ title, image, description }: { title: string; image: string; description: string }) {
-  return (
-    <div className="group overflow-hidden rounded-3xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <div className="flex h-52 w-full items-center justify-center bg-[#f5f7fa] p-6">
-        <img src={image} alt={title} className="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
-      </div>
-      <div className="p-7">
-        <h3 className="text-2xl font-black text-[#102f47]">{title}</h3>
-        <p className="mt-3 leading-7 text-slate-500">{description}</p>
-        <div className="mt-6 font-bold text-[#18b6b4]">למידע נוסף ←</div>
-      </div>
-    </div>
-  );
+  return <div className="rounded-3xl bg-white p-8 text-center shadow-xl"><div className="text-4xl font-black text-[#18b6b4]">{value}</div><div className="mt-2 font-bold text-[#102f47]">{label}</div></div>;
 }

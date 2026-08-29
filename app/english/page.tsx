@@ -1,44 +1,13 @@
-import Navbar from "../../Navbar";
+import Link from "next/link";
+
+const sports = [["Rugby", "🏉", "/rugby"], ["Fencing", "🤺", "/fencing"], ["Boxing", "🥊", "/boxing"], ["Table Tennis", "🏓", "/table-tennis"]];
+const RAW = "https://raw.githubusercontent.com/nikolpatrik/hapoel-ashkelon/main/";
 
 export default function EnglishPage() {
-  return (
-    <main dir="ltr" className="min-h-screen bg-[#f5f7fa] text-[#17263d]">
-      <Navbar />
-      <section className="bg-gradient-to-br from-[#102f47] via-[#123c59] to-[#18b6b4] px-6 py-24 text-center text-white md:py-32">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-5 text-sm font-bold tracking-[0.2em] text-[#7ee7e5]">ASHKELON SPORTS ASSOCIATION</div>
-          <h1 className="text-5xl font-black md:text-7xl">Ashkelon Sports Association</h1>
-          <p className="mx-auto mt-7 max-w-3xl text-lg leading-9 text-slate-200 md:text-xl">
-            We are the governing body recognized by the relevant authorities in Israel and by the Municipality of Ashkelon, operating sports clubs in several disciplines in Ashkelon, Israel.
-          </p>
-        </div>
-      </section>
-
-      <section className="px-6 py-20 md:py-28">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              ["Rugby", "🏉", "/rugby"],
-              ["Fencing", "🤺", "/fencing"],
-              ["Boxing", "🥊", "/boxing"],
-              ["Table Tennis", "🏓", "/table-tennis"],
-            ].map(([title, icon, href]) => (
-              <a key={href} href={href} className="rounded-3xl bg-white p-8 text-center shadow-md transition hover:-translate-y-1 hover:shadow-xl">
-                <div className="text-5xl">{icon}</div>
-                <h2 className="mt-5 text-2xl font-black text-[#102f47]">{title}</h2>
-              </a>
-            ))}
-          </div>
-
-          <div className="mt-14 rounded-[32px] bg-white p-8 text-center shadow-xl md:p-12">
-            <p className="text-lg leading-9 text-slate-600">
-              Athletes and teams represent the city of Ashkelon. The most successful athletes compete for Israeli national teams, and some participate in international events and achieve results at the highest level.
-            </p>
-            <div className="mt-8 text-lg font-bold text-[#102f47]">ash.sports@gmail.com</div>
-            <div className="mt-2 text-lg font-bold text-[#18b6b4]">+972-(0)50-4684686</div>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  return <main dir="ltr" className="min-h-screen bg-[#f5f7fa] text-[#17263d]">
+    <header className="border-b bg-white"><div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5"><Link href="/english" className="flex items-center gap-4"><img src={`${RAW}logo.png`} alt="Ashkelon Sports Association" className="h-16 w-auto"/><div><div className="text-xl font-black text-[#102f47]">Ashkelon Sports Association</div><div className="text-xs text-slate-500">Excellence • Community • Sport</div></div></Link><nav className="flex items-center gap-6 font-semibold"><Link href="/english">Home</Link><a href="/" className="text-[#18b6b4]">עברית</a><a href="/russian" target="_blank" rel="noopener noreferrer" className="text-[#18b6b4]">Русский</a></nav></div></header>
+    <section className="bg-gradient-to-br from-[#102f47] via-[#123c59] to-[#18b6b4] px-6 py-24 text-center text-white md:py-32"><div className="mx-auto max-w-5xl"><div className="mb-5 text-sm font-bold tracking-[0.2em] text-[#7ee7e5]">ASHKELON SPORTS ASSOCIATION</div><h1 className="text-5xl font-black md:text-7xl">Ashkelon Sports Association</h1><p className="mx-auto mt-7 max-w-3xl text-lg leading-9 text-slate-200 md:text-xl">Sport in Ashkelon — let’s start winning.</p><p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-slate-200">We promote sport, excellence and community in Ashkelon, connecting athletes, coaches and sports clubs throughout the city.</p></div></section>
+    <section className="px-6 py-20 md:py-28"><div className="mx-auto max-w-7xl"><div className="text-center"><span className="text-sm font-bold text-[#18b6b4]">OUR SPORTS</span><h2 className="mt-3 text-4xl font-black text-[#102f47]">Choose Your Sport</h2></div><div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{sports.map(([title, icon, href]) => <Link key={href} href={href} className="rounded-3xl bg-white p-8 text-center shadow-md transition hover:-translate-y-1 hover:shadow-xl"><div className="text-5xl">{icon}</div><h2 className="mt-5 text-2xl font-black text-[#102f47]">{title}</h2><div className="mt-4 font-bold text-[#18b6b4]">Learn more →</div></Link>)}</div><div className="mt-14 rounded-[32px] bg-white p-8 text-center shadow-xl md:p-12"><h2 className="text-3xl font-black text-[#102f47]">Be Part of the Team</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-9 text-slate-600">Athletes and teams represent the city of Ashkelon. Join our sports community and take the next step toward excellence.</p><a href="https://wa.me/972526781740" target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex rounded-full bg-[#18b6b4] px-8 py-4 font-bold text-white">Contact Nicole on WhatsApp</a></div></div></section>
+    <footer className="bg-[#0b2234] px-6 py-10 text-center text-white"><div className="font-black">Ashkelon Sports Association</div><div className="mt-2 text-sm text-slate-400">Excellence • Community • Sport</div></footer>
+  </main>;
 }

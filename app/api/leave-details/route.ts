@@ -18,17 +18,12 @@ async function sendWhatsAppLead({ name, age, phone, sport }: {
   const templateName = getEnv("WHATSAPP_TEMPLATE_NAME");
   const templateLanguage = getEnv("WHATSAPP_TEMPLATE_LANGUAGE") || "he";
 
-  // Keep the existing email-only flow working until WhatsApp credentials
-  // are configured in Vercel.
   if (!accessToken || !phoneNumberId) {
     return { configured: false, ok: true };
   }
 
   const url = `https://graph.facebook.com/${graphVersion}/${phoneNumberId}/messages`;
 
-  // Production WhatsApp Cloud API notifications should use an approved
-  // template. The template should contain four body variables:
-  // {{1}} name, {{2}} age, {{3}} phone, {{4}} sport.
   if (!templateName) {
     throw new Error("WHATSAPP_TEMPLATE_NAME is not configured");
   }
@@ -82,6 +77,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    // FormSubmit's AJAX endpoint returns a machine-readable JSON response and
+    // is more reliable for a server-to-server Vercel request than the normal
+    // browser redirect endpoint.
     const submission = new FormData();
     submission.append("name", name);
     submission.append("age", age);
@@ -91,28 +89,51 @@ export async function POST(request: Request) {
     submission.append("_template", "table");
     submission.append("_captcha", "false");
 
-    const emailResponse = await fetch("https://formsubmit.co/ash.sports2@gmail.com", {
+    const emailResponse = await fetch("https://formsubmit.co/ajax/ash.sports2@gmail.com", {
       method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
       body: submission,
+      cache: "no-store",
     });
 
+    const emailBody = await emailResponse.text().catch(() => "");
     if (!emailResponse.ok) {
-      return NextResponse.json({ error: "Email service rejected the submission" }, { status: 502 });
-    }
-
-    try {
-      await sendWhatsAppLead({ name, age, phone, sport });
-    } catch {
-      // Do not lose the lead that was already sent by email. Report that the
-      // WhatsApp notification needs attention so it can be retried/configured.
+      console.error("FormSubmit error", emailResponse.status, emailBody);
       return NextResponse.json(
-        { error: "הפרטים התקבלו במייל, אך הודעת הוואטסאפ לא נשלחה. יש לבדוק את חיבור ה-WhatsApp Business." },
+        { error: "Email service rejected the submission" },
         { status: 502 },
       );
     }
 
+    let emailResult: { success?: string; message?: string } | null = null;
+    try {
+      emailResult = JSON.parse(emailBody);
+    } catch {
+      // Some FormSubmit responses may be plain text; a successful HTTP status
+      // is enough to continue in that case.
+    }
+
+    if (emailResult?.success === "false") {
+      console.error("FormSubmit rejected lead", emailResult);
+      return NextResponse.json(
+        { error: emailResult.message || "Email service rejected the submission" },
+        { status: 502 },
+      );
+    }
+
+    try {
+      await sendWhatsAppLead({ name, age, phone, sport });
+    } catch (error) {
+      console.error("WhatsApp notification error", error);
+      // The lead has already been accepted by email. Do not make the user
+      // resubmit and risk creating a duplicate lead.
+    }
+
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error("Leave-details submission error", error);
     return NextResponse.json({ error: "Unable to submit form" }, { status: 500 });
   }
 }

@@ -96,7 +96,7 @@ export default function FencingPage() {
 
       <section className="px-6 py-20">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
-          <div className="rounded-3xl bg-[#102f47] p-8 text-white"><div className="text-sm font-bold text-[#7ee7e5]">קבוצות וגילאים</div><h2 className="mt-3 text-3xl font-black">ילדים ובוגרים</h2><p className="mt-4 leading-8 text-slate-300">קבוצות לפי גיל ורמה, השתתפות בתחרויות מקומיות ובינלאומיות, ציוד מקצועי ומתחדש ואימונים לאורך כל השנה.</p></div>
+          <div className="rounded-3xl bg-[#102f47] p-8 text-white"><div className="text-sm font-bold text-[#7ee7e5]">קבוצות וגילאים</div><h2 className="mt-3 text-3xl font-black">ילדים ובוגרים</h2><p className="mt-4 leading-8 text-slate-300">מתאים לכל אחד מעל גיל 6</p></div>
           <div className="rounded-3xl bg-white p-8 shadow-md"><div className="text-sm font-bold text-[#18b6b4]">פעילות</div><h2 className="mt-3 text-3xl font-black text-[#102f47]">ימי ושעות פעילות</h2><div className="mt-4 space-y-2 leading-8 text-slate-600"><p><strong>ימים א׳–ה׳:</strong> 17:00–21:00</p><p><strong>יום ו׳:</strong> 14:00–17:00</p></div><div className="mt-5 font-bold text-[#102f47]">📍 יעקב גרופר 15, אשקלון</div></div>
         </div>
       </section>

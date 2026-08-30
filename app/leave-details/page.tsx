@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import Navbar from "../../Navbar";
 
+const WHATSAPP_NUMBER = "972526781740";
+
 export default function LeaveDetailsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -16,6 +18,24 @@ export default function LeaveDetailsPage() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const age = String(formData.get("age") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const sport = String(formData.get("sport") ?? "").trim();
+
+    // Open WhatsApp from the user's click with the lead details pre-filled.
+    // WhatsApp does not allow a normal wa.me link to send a message silently;
+    // the user must press Send. Fully automatic delivery requires WhatsApp Business API.
+    const whatsappMessage = [
+      "פנייה חדשה מהאתר – העמותה לקידום הספורט באשקלון",
+      "",
+      `שם: ${name}`,
+      `גיל: ${age}`,
+      `טלפון: ${phone}`,
+      `ענף ספורט: ${sport}`,
+    ].join("\n");
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappWindow = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
 
     try {
       const response = await fetch("/api/leave-details", {
@@ -24,6 +44,7 @@ export default function LeaveDetailsPage() {
       });
 
       if (!response.ok) {
+        if (whatsappWindow) whatsappWindow.close();
         throw new Error("Submission failed");
       }
 

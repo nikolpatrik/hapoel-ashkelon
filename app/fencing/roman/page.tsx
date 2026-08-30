@@ -31,12 +31,26 @@ export default function RomanPage() {
           <div className="rounded-3xl bg-white p-8 shadow-md">
             <div className="text-sm font-bold text-[#18b6b4]">ניסיון מקצועי</div>
             <h2 className="mt-3 text-3xl font-black text-[#102f47]">מהמסלול התחרותי לאימון</h2>
-            <p className="mt-5 leading-8 text-slate-600">הניסיון של רומן כסייף תחרותי מאפשר לו לשלב באימון עבודה טכנית, חשיבה טקטית, קבלת החלטות בזמן אמת והכנה מנטלית לתחרויות.</p>
+            <ul className="mt-5 space-y-4 leading-8 text-slate-600">
+              <li>מאמן צעירי המועדון מזה 10 שנים</li>
+              <li>מאמן אלופי ישראל בדקר גברים צעירים קבוצתי 2023</li>
+              <li>מאמנו האישי של תמרי גולדין</li>
+              <li>מאמן אלוף ישראל ילדים 2025</li>
+              <li>מאמן אלוף ישראל ילדים 2026</li>
+              <li>מאמן אלופי ישראל ילדים קבוצות 2026</li>
+            </ul>
           </div>
           <div className="rounded-3xl bg-[#102f47] p-8 text-white">
             <div className="text-sm font-bold text-[#7ee7e5]">הישגים והשפעה</div>
             <h2 className="mt-3 text-3xl font-black">פיתוח דור הסייפים הבא</h2>
-            <p className="mt-5 leading-8 text-slate-300">תחת חסותו גדלו כמה מהסייפים הבכירים בעיר אשקלון, תוך דגש על התקדמות אישית, יסודות חזקים ושאיפה להישגים.</p>
+            <ul className="mt-5 space-y-4 leading-8 text-slate-300">
+              <li>מחזיק גביע המדינה 2010</li>
+              <li>סגן אלוף ישראל 2011</li>
+              <li>סגן מחזיק גביע המדינה 2011</li>
+              <li>סייף נבחרת ישראל 2013</li>
+              <li>חבר בסגל נבחרת ישראל 2015</li>
+              <li>אלוף ישראל בדקר קבוצות 2018</li>
+            </ul>
           </div>
         </div>
       </section>

@@ -1,168 +1,218 @@
-import Navbar from "../../../Navbar";
+"use client";
 
-const chapters = [
-  "ההיסטוריה של הסייף",
-  "שלושת כלי הסייף",
-  "איך מתנהל קרב?",
-  "איך מקבלים נקודות?",
-  "ציוד הסייף",
-  "איך נראה אימון?",
-  "למי הספורט מתאים?",
-  "איך מתחילים?",
-];
+import { useState } from "react";
+import Navbar from "../../../Navbar";
 
 const pages = [
   {
     number: 1,
-    label: "פרק 1",
-    title: "סייף – מסורת עתיקה, ספורט אולימפי ודרך להתפתחות",
-    content: [
-      "סייף הוא הרבה יותר מקרב בחרבות – זהו ענף ספורט אולימפי המשלב מסורת בת אלפי שנים עם מהירות, דיוק, חשיבה אסטרטגית ושליטה עצמית.",
-      "שורשיו של הסייף נעוצים באומנויות הלחימה העתיקות, שבהן כלי הנשק שימשו להגנה, ללחימה ולדו־קרב. כבר במצרים העתיקה, לפני יותר מ־3,000 שנה, קיימות עדויות לתחרויות לחימה מאורגנות שבהן השתמשו בכלי נשק מוגנים, מסכות ואמצעי הגנה – למעשה, אחד התיאורים הקדומים ביותר של תחרות סייף.",
-      "לאורך הדורות התפתחה אמנות החרב באירופה, במיוחד בתקופת הרנסנס, והפכה למקצוע שנלמד בבתי ספר ייעודיים לסייף. עם התפתחות כלי הנשק המודרניים ירדה חשיבות החרב בשדה הקרב, והסייף עבר שינוי משמעותי: מאמנות לחימה שנועדה להתמודד עם יריב אמיתי הוא הפך לענף ספורט המבוסס על טכניקה, חוקים, בטיחות ותחרות הוגנת.",
+    era: "המקורות הקדומים",
+    title: "מסורת של אלפי שנים",
+    paragraphs: [
+      "הסייף המודרני נולד מתוך מסורת עתיקה של שימוש בחרב ללחימה, להגנה עצמית ולדו־קרב. כבר בעולם העתיק כלי נשק דמויי חרב שימשו לא רק בשדה הקרב אלא גם באימונים ובמפגנים של מיומנות.",
+      "במצרים העתיקה קיימות עדויות לתחרויות לחימה מאורגנות שבהן נעשה שימוש בכלי נשק מוגנים. אחת העדויות המפורסמות מתוארכת לסביבות 1190 לפנה״ס ומראה כי כבר לפני יותר מ־3,000 שנה התקיימו אירועים שבהם לחימה בחרבות קיבלה אופי תחרותי.",
+      "עם זאת, חשוב להבחין בין אותן תחרויות קדומות לבין הסייף שאנו מכירים כיום: הספורט המודרני התפתח בהדרגה מתוך מסורות לחימה אירופיות, ולא נוצר באירוע אחד.",
     ],
   },
   {
     number: 2,
-    label: "הסייף המודרני",
-    title: "שלושה כלי סייף, עולם אחד",
-    content: [
-      "הסייף המודרני מתנהל על מסלול ייעודי, בין שני ספורטאים המצוידים בביגוד מגן ובמערכת אלקטרונית המזהה את הפגיעות. כיום קיימות שלוש התמחויות אולימפיות – רומח, דקר וחרב – שלכל אחת מהן חוקים וסגנון משחק משלה.",
-      "בדקר ניתן לפגוע בכל גוף היריב, והוא מתאפיין במשחק טקטי של מרחק, תזמון, סבלנות ודיוק. בחרב, לעומת זאת, הקרב מהיר ודינמי במיוחד, והפגיעות מתבצעות באמצעות חוד הלהב או צדו באזור שמעל המותניים.",
-      "בשתי ההתמחויות נדרש הסייף לקרוא את היריב, לזהות את כוונותיו, להגיב בתוך שברירי שנייה ולשלב בין התקפה, הגנה ותנועה. לכן סייף הוא ענף שבו לא רק הגוף מתאמן – גם המוח. כל קרב הוא משחק שחמט במהירות גבוהה, שבו החלטה נכונה ברגע הנכון יכולה לשנות את התוצאה.",
+    era: "ימי הביניים והרנסנס",
+    title: "מהחרב בשדה הקרב אל בית הספר לסייף",
+    paragraphs: [
+      "בימי הביניים הייתה החרב כלי לחימה מרכזי באירופה. לוחמים ואנשי צבא נדרשו ללמוד שליטה בחרב, והידע עבר ממורים לתלמידים באמצעות מסורות של אימון ותרגול.",
+      "בתקופת הרנסנס, ובעיקר במאות ה־16 וה־17, התפתחו באירופה בתי ספר מקצועיים לסייף. הסייף הפך למערכת מסודרת של טכניקות, עמדות, צעדים, התקפות והגנות, ולמקצוע שנלמד באופן שיטתי.",
+      "בהדרגה נוצר גם הבסיס התרבותי לסייף תחרותי: במקום להשתמש בחרב כדי לפגוע ביריב באמת, המתאמנים החלו להשתמש בכלי אימון ובציוד מגן ולפתח כללים שמאפשרים לבחון מיומנות, מהירות ודיוק בבטיחות יחסית.",
     ],
   },
   {
     number: 3,
-    label: "הדרך לאולימפיאדה",
-    title: "מהמסורת אל הבמה האולימפית",
-    content: [
-      "הדרך של הסייף להפוך לאחד מענפי הספורט המרכזיים בעולם החלה במאות ה־18 וה־19, עם התפתחותם של בתי ספר לסייף, ציוד ייעודי וכללים תחרותיים אחידים.",
-      "בשנת 1896, במשחקים האולימפיים הראשונים של העת החדשה באתונה, כבר נכלל הסייף בתוכנית האולימפית – ובכך החל הקשר ההיסטורי בין הסייף לבין המשחקים האולימפיים.",
-      "בתחילה התחרו ברומח ובחרב, ובמשחקי פריז בשנת 1900 נוסף גם הדקר. במהלך המאה ה־20 המשיך הענף להתפתח: הוקמו תחרויות בינלאומיות, נוספו תחרויות נשים וקבוצות, והטכנולוגיה האלקטרונית הפכה את זיהוי הפגיעות למדויק ואמין יותר.",
-      "בשנת 1913 הוקמה הפדרציה הבינלאומית לסייף (FIE), שהיא עד היום הגוף הבינלאומי המנהל את הענף ומוכר על ידי הוועד האולימפי הבינלאומי.",
+    era: "המאה ה־17 עד המאה ה־19",
+    title: "הולדת הסייף כספורט",
+    paragraphs: [
+      "במאות ה־17 וה־18 החל הסייף לקבל את הצורה המוכרת לנו כיום. התפתח הרומח הקל לאימון, הומצאה מסכת הרשת שהגנה על הפנים, ונוצרו כללים ברורים יותר לגבי אזורי המטרה ואופן ניהול הקרב.",
+      "המעבר מכלי נשק צבאיים לכלי ספורט קלים ובטוחים יותר היה צעד מכריע. עם ירידת חשיבות החרב בשדה הקרב בעקבות כלי הנשק המודרניים, הסייף יכול היה להשתחרר בהדרגה מתפקידו הצבאי ולהפוך לענף ספורט בפני עצמו.",
+      "במאה ה־19 התבססו בתי ספר ומועדוני סייף ברחבי אירופה, נערכו תחרויות, נכתבו תקנונים ונוצרו מסגרות שאפשרו לספורטאים ממדינות שונות להתחרות לפי חוקים דומים.",
     ],
   },
   {
     number: 4,
-    label: "הסייף בישראל",
-    title: "הסייף מגיע לישראל ומתפתח",
-    content: [
-      "גם בישראל לסייף יש היסטוריה של עשרות שנים. הענף החל להתפתח בארץ עוד לפני הקמת המדינה, ובשנותיה הראשונות של ישראל פעל בעיקר בחיפה ובתל אביב במסגרת אגודות ספורט.",
-      "בתחילת שנות ה־50 עדיין היה מדובר בענף קטן יחסית, אך בשנת 1952 הוקם מועדון סייף ברמת גן, שהפך לאחד המרכזים החשובים בהתפתחות הענף בישראל.",
-      "מאמנים שהגיעו מאירופה הביאו עמם שיטות אימון מודרניות וסייעו בהקמת תשתית מקצועית לענף. בהדרגה נפתחו מועדונים נוספים, נבנו מסגרות תחרותיות והסייף החל לקבל חשיפה ציבורית רחבה יותר.",
-      "בשנת 1960, במשחקים האולימפיים ברומא, השתתפו לראשונה סייפים ישראלים במשחקים האולימפיים. מאז המשיך הענף להתפתח, וסייפים ישראלים השתתפו לאורך השנים במשחקים האולימפיים, באליפויות עולם ובתחרויות בינלאומיות.",
+    era: "הסייף האולימפי",
+    title: "מאירופה אל הבמה הגדולה בעולם",
+    paragraphs: [
+      "הסייף היה אחד מענפי הספורט שנכללו כבר במשחקים האולימפיים הראשונים של העת החדשה באתונה בשנת 1896, והוא אחד מחמשת הענפים שהופיעו בכל מהדורות המשחקים האולימפיים המודרניים.",
+      "במשחקי פריז 1900 נוספה תחרות הדקר. במהלך המאה ה־20 הורחב הענף בהדרגה גם לנשים ולתחרויות קבוצתיות, ושלושת כלי הסייף – רומח, דקר וחרב – הפכו לחלק קבוע מהמערכת התחרותית הבינלאומית.",
+      "בשנת 1913 הוקמה הפדרציה הבינלאומית לסייף (FIE), שהפכה לגוף המרכזי המנהל את הספורט בעולם ומפתחת את החוקים והמסגרות הבינלאומיות שלו.",
+      "הטכנולוגיה שינתה גם היא את הענף: מערכת הניקוד האלקטרונית אפשרה לזהות פגיעות באופן מדויק יותר והפכה את הקרבות למהירים, מדידים והוגנים יותר.",
     ],
   },
   {
     number: 5,
-    label: "יותר מספורט",
-    title: "מה הסייף מעניק לספורטאי?",
-    content: [
-      "אבל אולי הדבר המיוחד ביותר בסייף הוא מה שהוא מעניק לספורטאי מעבר לתחרות עצמה.",
-      "אימוני סייף מפתחים מהירות תגובה, שיווי משקל, קואורדינציה, זריזות, כוח, גמישות וריכוז, אך במקביל מלמדים גם התמדה, משמעת, חשיבה עצמאית, שליטה ברגשות וכבוד ליריב.",
-      "הסייף מחייב את הספורטאי להיות נוכח בכל רגע, לקבל החלטות במהירות ולהתמודד גם עם הצלחה וגם עם כישלון.",
-      "עבור ילדים ובני נוער, זהו ענף שמאפשר להתחיל מגיל צעיר, להתפתח בהדרגה ולהתקדם מאימון ראשון ועד לתחרויות ברמה הארצית והבינלאומית.",
+    era: "1942–1965",
+    title: "הסייף מגיע לישראל",
+    paragraphs: [
+      "בישראל החלה התפתחות מאורגנת של הסייף עוד לפני הקמת המדינה, ובשנות ה־50 וה־60 נבנתה תשתית שאפשרה לסייפים ישראלים לצאת לתחרויות בינלאומיות.",
+      "בשנת 1958 יצאה נבחרת של אגודת הספורט האקדמית (ASA) לתחרויות בפולין. לפי איגוד הסייף הישראלי, זו הייתה אחת ההופעות הראשונות של ספורט ישראלי בכלל בזירה האירופית וההופעה הבינלאומית הראשונה של נבחרת סייף ישראלית.",
+      "בשנת 1960 הופיעו סייפים ישראלים לראשונה במשחקים האולימפיים ברומא. מיקי רון ודוד ואן גלדר השתתפו בתחרויות הסייף, ובכך נפתח הפרק האולימפי של הסייף הישראלי.",
+      "בשנות ה־60, לאחר תקופה של פעילות מצומצמת, יזמו סייפי רמת גן מערכת קבועה של תחרויות מקומיות וארציות. בהמשך נפתחו מועדונים נוספים ונבנתה מסגרת ארצית יציבה יותר.",
     ],
   },
   {
     number: 6,
-    label: "לסיום",
-    title: "גוף, מחשבה ואופי",
-    content: [
-      "מאחורי המסכה והחרב נמצאת למעשה דרך שלמה של התפתחות אישית – דרך שמחברת בין גוף, מחשבה ואופי, והופכת את הסייף לאחד מענפי הספורט הייחודיים והמרתקים בעולם.",
+    era: "ההתבססות בישראל",
+    title: "מענף קטן לענף תחרותי",
+    paragraphs: [
+      "התרחבות המועדונים והכשרת מאמנים יצרו בישראל בסיס רחב יותר לסייף. במהלך השנים התפתחו מסגרות לילדים, לנוער ולבוגרים, וסייפים ישראלים החלו להופיע באופן קבוע באליפויות אירופה, אליפויות עולם, גביעי עולם ובמשחקים האולימפיים.",
+      "אחד השלבים החשובים היה המעבר מהתמקדות היסטורית ברומח להתפתחות משמעותית גם בדקר ובחרב. כיום שלושת כלי הסייף מתקיימים בישראל במסגרת תחרותית מסודרת.",
+      "איגוד הסייף הישראלי מציין כי בישראל פועלים כיום יותר מ־19 מועדונים, מצפון הארץ ועד באר שבע, וכי המועדונים הישראלים שולחים ספורטאים ושופטים לתחרויות בינלאומיות ולמשחקים האולימפיים.",
+    ],
+  },
+  {
+    number: 7,
+    era: "הישגים ישראליים בולטים",
+    title: "ישראל על מפת הסייף העולמית",
+    achievements: [
+      "אודי כרמי – מקום 4 באליפות העולם ברומח בשנת 1987.",
+      "לידיה חטואל – מקום 7 באליפות העולם ברומח בשנת 1991.",
+      "תומר אור – אלוף עולם לנוער, דורג בין עשרת הסייפים הטובים בעולם וזכה בשלושה גביעי עולם; השתתף באולימפיאדת בייג׳ינג 2008.",
+      "דלילה חטואל – זכתה בגביעי עולם והגיעה למקום 7 באליפויות אירופה ב־2007 וב־2008; השתתפה באולימפיאדת בייג׳ינג 2008.",
+      "מאור חטואל – זכה במקום השני באליפות אירופה לנוער בשנת 2005.",
+      "אורן בסל – זכה במקום השלישי באליפות העולם לנוער בשנת 2006.",
+      "יובל פרייליך – זכה באליפות אירופה בדקר בשנת 2019 והיה לסייף הישראלי הראשון שזכה בתואר אירופי לבוגרים.",
+      "הסייף הישראלי המשיך להופיע במשחקים האולימפיים גם בעידן המודרני; יובל פרייליך ייצג את ישראל בדקר באולימפיאדת פריז 2024.",
+    ],
+  },
+  {
+    number: 8,
+    era: "הסייף כיום",
+    title: "מסורת שממשיכה להתפתח",
+    paragraphs: [
+      "מה שהתחיל כמיומנות לחימה עתיקה הפך במשך מאות שנים לענף ספורט בינלאומי המבוסס על חוקים, בטיחות, טכנולוגיה ותחרות הוגנת. הסייף המודרני משלב מהירות ודיוק עם חשיבה טקטית, שליטה עצמית ויכולת לקבל החלטות בשברירי שנייה.",
+      "הדרך שעבר הספורט – מהחרב בשדה הקרב, דרך בתי הספר האירופיים לסייף, ועד לאולימפיאדה ולמועדונים בישראל – היא סיפור של שינוי מתמיד בלי אובדן המסורת.",
+      "גם בישראל הסיפור ממשיך להיכתב: מדור הסייפים הראשון ברומא 1960 ועד להישגים באירופה ובזירה הבינלאומית, הסייף הישראלי ממשיך להתפתח ולהצמיח ספורטאים, מאמנים ומועדונים חדשים.",
+      "וזה בדיוק מה שהופך את הסייף לייחודי: ענף שבו ההיסטוריה נמצאת בכל תנועה – אבל העתיד תמיד נמצא בקרב הבא.",
     ],
   },
 ];
 
+const chapters = pages.map((page) => page.title);
+
 export default function FencingAboutPage() {
-  const first = pages[0];
-  const second = pages[1];
+  const [current, setCurrent] = useState(0);
+  const page = pages[current];
+
+  const next = () => setCurrent((value) => Math.min(value + 1, pages.length - 1));
+  const previous = () => setCurrent((value) => Math.max(value - 1, 0));
 
   return (
-    <main dir="rtl" className="min-h-screen bg-[#07131f] text-white">
+    <main dir="rtl" className="min-h-screen overflow-hidden bg-[#071827] text-[#102d46]">
       <Navbar />
-      <section className="relative overflow-hidden px-5 py-10 md:px-8 md:py-14">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,rgba(24,182,180,.16),transparent_34%),radial-gradient(circle_at_25%_75%,rgba(14,52,79,.45),transparent_42%)]" />
+
+      <section className="relative px-4 py-8 md:px-8 md:py-12">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,#17476b_0%,#071827_52%,#04101b_100%)]" />
+
         <div className="relative mx-auto max-w-7xl">
-          <a href="/fencing" className="inline-flex items-center gap-2 text-sm font-bold text-[#72e4e1]">← חזרה לעמוד הסייף</a>
-          <div className="mt-8 grid gap-8 lg:grid-cols-[235px_1fr]">
-            <aside className="h-fit rounded-3xl border border-white/10 bg-[#0b2032]/90 p-5 shadow-2xl backdrop-blur">
-              <div className="mb-5 flex items-center justify-between"><div className="text-lg font-black">תוכן העניינים</div><span className="text-2xl text-[#18b6b4]">☷</span></div>
-              <div className="space-y-2">
-                {chapters.map((chapter, i) => (
-                  <button key={chapter} className={`w-full rounded-xl px-4 py-3 text-right text-sm font-bold transition ${i === 0 ? "bg-[#18b6b4] text-[#071a2f] shadow-[0_0_22px_rgba(24,182,180,.22)]" : "text-slate-300 hover:bg-white/10"}`}>
-                    {i + 1}. {chapter}
+          <div className="mb-7 text-center text-white">
+            <div className="mb-2 text-sm font-bold tracking-[0.28em] text-[#18b8c5]">FENCING • THE STORY</div>
+            <h1 className="text-3xl font-black md:text-5xl">ההיסטוריה של הסייף</h1>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-300 md:text-base">
+              ספר דיגיטלי על הדרך שעבר הסייף – מהמסורות העתיקות ועד הספורט האולימפי והסייף בישראל.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-start" dir="ltr">
+            <aside className="order-2 rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur lg:order-1" dir="rtl">
+              <div className="mb-3 text-xs font-bold tracking-widest text-[#18b8c5]">תוכן הספר</div>
+              <div className="space-y-1.5">
+                {chapters.map((chapter, index) => (
+                  <button
+                    key={chapter}
+                    onClick={() => setCurrent(index)}
+                    className={`w-full rounded-xl px-3 py-2 text-right text-xs font-bold transition ${
+                      current === index ? "bg-[#18b8c5] text-[#062033]" : "text-white/75 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    {index + 1}. {chapter}
                   </button>
                 ))}
               </div>
             </aside>
 
-            <div>
-              <div className="mb-7 text-center">
-                <div className="text-sm font-bold tracking-[0.22em] text-[#72e4e1]">FENCING • DIGITAL BOOK</div>
-                <h1 className="mt-2 text-4xl font-black md:text-5xl">עולם הסייף</h1>
-                <p className="mt-3 text-slate-400">מסורת עתיקה, ספורט אולימפי ודרך להתפתחות</p>
-              </div>
+            <div className="order-1 lg:order-2">
+              <div className="mx-auto max-w-5xl rounded-[2rem] bg-gradient-to-b from-[#b8a98d] to-[#7d6f59] p-2 shadow-[0_35px_80px_rgba(0,0,0,.5)] md:p-3">
+                <div className="relative overflow-hidden rounded-[1.5rem] bg-[#efe7d7] p-2 shadow-inner md:p-4">
+                  <div className="grid min-h-[600px] grid-cols-2 overflow-hidden rounded-xl bg-[#fbf8f0] shadow-[inset_0_0_35px_rgba(61,45,25,.15)]" dir="rtl">
+                    <article className="relative border-l border-[#c9bda7] p-6 md:p-10">
+                      <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#b9ab94]/45 to-transparent" />
+                      <div className="relative">
+                        <div className="mb-5 flex items-center justify-between gap-4">
+                          <span className="rounded-full bg-[#102d46] px-3 py-1 text-[10px] font-black text-white">עמוד {page.number}</span>
+                          <span className="text-xs font-bold text-[#0aaab6]">{page.era}</span>
+                        </div>
+                        <h2 className="mb-6 text-2xl font-black leading-tight md:text-4xl">{page.title}</h2>
 
-              <div className="book-scene relative mx-auto max-w-6xl px-2 py-8 md:px-8">
-                <div className="absolute bottom-5 left-[7%] right-[7%] h-16 rounded-[50%] bg-black/70 blur-2xl" />
-                <div className="book-cover relative rounded-[30px] bg-gradient-to-br from-[#172f43] via-[#0b1b2b] to-[#06111d] p-3 shadow-[0_35px_70px_rgba(0,0,0,.65)] md:p-5">
-                  <div className="book-pages relative grid min-h-[650px] overflow-hidden rounded-[20px] bg-[#eee3ca] text-[#17263d] shadow-inner md:grid-cols-2">
-                    <BookPage page={first} left />
-                    <BookPage page={second} />
-                    <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-10 -translate-x-1/2 bg-gradient-to-r from-black/10 via-[#a58f67]/25 to-black/10 md:block" />
+                        {page.paragraphs?.map((paragraph) => (
+                          <p key={paragraph} className="mb-5 text-sm leading-8 text-[#40566a] md:text-base md:leading-9">{paragraph}</p>
+                        ))}
+
+                        {page.achievements && (
+                          <ul className="space-y-3 text-sm leading-7 text-[#40566a] md:text-base">
+                            {page.achievements.map((achievement) => (
+                              <li key={achievement} className="flex gap-3">
+                                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#11aeb9]" />
+                                <span>{achievement}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </article>
+
+                    <article className="relative hidden bg-[#f5efe2] p-6 md:block md:p-10">
+                      <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#b9ab94]/45 to-transparent" />
+                      <div className="flex h-full flex-col items-center justify-center text-center">
+                        <div className="mb-5 text-7xl">🤺</div>
+                        <div className="h-px w-28 bg-[#18b8c5]" />
+                        <div className="mt-5 max-w-xs text-sm font-bold leading-7 text-[#6a5b47]">
+                          {current < 4
+                            ? "מן החרב העתיקה אל הסייף המודרני"
+                            : current < 7
+                              ? "הסיפור הישראלי של הסייף"
+                              : "המסורת ממשיכה – הדור הבא על המסלול"}
+                        </div>
+                        <div className="mt-10 text-xs text-[#8d7d65]">ASHKELON FENCING</div>
+                      </div>
+                    </article>
                   </div>
-                  <div className="absolute bottom-0 left-1/2 h-4 w-24 -translate-x-1/2 rounded-t-full bg-[#06111d] shadow-inner" />
-                </div>
-
-                <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-0 md:px-2">
-                  <button aria-label="עמוד קודם" className="pointer-events-auto grid h-14 w-14 place-items-center rounded-full border border-[#18b6b4]/60 bg-[#071a2f]/90 text-3xl font-black text-[#72e4e1] shadow-[0_0_28px_rgba(24,182,180,.2)] transition hover:scale-105 hover:bg-[#18b6b4] hover:text-[#071a2f]">›</button>
-                  <button aria-label="עמוד הבא" className="pointer-events-auto grid h-14 w-14 place-items-center rounded-full border border-[#18b6b4]/60 bg-[#071a2f]/90 text-3xl font-black text-[#72e4e1] shadow-[0_0_28px_rgba(24,182,180,.2)] transition hover:scale-105 hover:bg-[#18b6b4] hover:text-[#071a2f]">‹</button>
                 </div>
               </div>
 
-              <div className="mx-auto mt-2 flex max-w-md items-center justify-center gap-5 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-slate-300 shadow-lg backdrop-blur">
-                <span>◫</span><span>עמודים 1–2 / 20</span><span>⛶</span>
+              <div className="mt-5 flex items-center justify-center gap-4" dir="rtl">
+                <button
+                  onClick={previous}
+                  disabled={current === 0}
+                  className="rounded-full bg-white px-5 py-3 text-sm font-black text-[#102d46] shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-30"
+                >
+                  ← הקודם
+                </button>
+                <div className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold text-white/80">
+                  {current + 1} / {pages.length}
+                </div>
+                <button
+                  onClick={next}
+                  disabled={current === pages.length - 1}
+                  className="rounded-full bg-[#18b8c5] px-5 py-3 text-sm font-black text-[#062033] shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-30"
+                >
+                  הבא →
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="border-t border-slate-200 bg-white px-5 py-16 text-[#102f47] md:px-8">
-        <div className="mx-auto max-w-6xl text-center">
-          <div className="text-sm font-bold text-[#18b6b4]">מה מחכה בספר?</div>
-          <h2 className="mt-2 text-3xl font-black md:text-4xl">נבנה יחד מדריך שלם לעולם הסייף</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-4">
-            {["היסטוריה", "כלי הסייף", "חוקי המשחק", "ציוד ואימון"].map((item) => (
-              <div key={item} className="rounded-3xl bg-[#f5f7fa] p-6 shadow-sm"><div className="text-2xl">📖</div><h3 className="mt-3 font-black">{item}</h3><p className="mt-2 text-sm leading-6 text-slate-500">פרק שיוכל להתמלא בתוכן, תמונות והסברים.</p></div>
-            ))}
+          <div className="mt-8 text-center text-xs text-slate-400">
+            <a href="/fencing" className="font-bold text-[#18b8c5] hover:underline">← חזרה לעמוד הסייף</a>
           </div>
         </div>
       </section>
     </main>
-  );
-}
-
-function BookPage({ page, left = false }: { page: typeof pages[number]; left?: boolean }) {
-  return (
-    <article className={`relative p-8 md:p-12 ${left ? "border-l border-[#c6b997] bg-[linear-gradient(105deg,#eee3ca,#faf4e4_55%,#e3d5b8)] shadow-[inset_-18px_0_28px_rgba(80,57,24,.12)]" : "bg-[linear-gradient(75deg,#e4d6b9,#faf3df_45%,#eee3c9)] shadow-[inset_18px_0_28px_rgba(80,57,24,.1)]"}`}>
-      <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/10 to-transparent opacity-40" />
-      <div className="relative z-10">
-        <div className="text-center text-xs font-bold text-[#148e91]">{page.label}</div>
-        <h2 className="mt-4 text-center text-2xl font-black leading-tight md:text-3xl">{page.title}</h2>
-        <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-[#18b6b4]" />
-        {page.number === 1 && (
-          <div className="mx-auto mt-7 flex h-32 max-w-sm items-center justify-center overflow-hidden rounded-xl border border-[#b9a57c] bg-[#d8c7a3] shadow-[0_10px_18px_rgba(40,30,15,.2)]">
-            <div className="text-6xl opacity-80">⚔️</div>
-          </div>
-        )}
-        <div className="mt-7 space-y-5 text-base leading-8 text-slate-700 md:text-[17px] md:leading-9">
-          {page.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 text-center text-sm text-slate-400">{page.number}</div>
-      </div>
-    </article>
   );
 }

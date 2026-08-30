@@ -29,12 +29,25 @@ export default function SergeyPage() {
           <div className="rounded-3xl bg-white p-8 shadow-md">
             <div className="text-sm font-bold text-[#18b6b4]">ניסיון מקצועי</div>
             <h2 className="mt-3 text-3xl font-black text-[#102f47]">מסורת של מצוינות</h2>
-            <p className="mt-5 leading-8 text-slate-600">סרגיי מביא לאימונים ידע מקצועי שעובר מדור לדור, עם דגש על יסודות חזקים, טכניקה, דיוק וחשיבה תחרותית.</p>
+            <ul className="mt-5 space-y-3 leading-8 text-slate-600">
+              <li>מאמן אלוף ישראל בחרב שמונה שנים ברצף</li>
+              <li>מאמן אלופי ישראל בחרב קבוצתי 2026</li>
+              <li>מאמן אלופי ישראל בחרב קבוצתי 2025</li>
+              <li>מאמן סגן מחזיק גביע המדינה 2026</li>
+              <li>מאמנו של דויד פרומגרץ</li>
+            </ul>
           </div>
           <div className="rounded-3xl bg-[#102f47] p-8 text-white">
             <div className="text-sm font-bold text-[#7ee7e5]">הישגים והשפעה</div>
-            <h2 className="mt-3 text-3xl font-black">פיתוח סייפים הישגיים</h2>
-            <p className="mt-5 leading-8 text-slate-300">ניסיונו של סרגיי מאפשר לספורטאים להתפתח מקצועית ולבנות בסיס נכון להתקדמות בזירה התחרותית.</p>
+            <h2 className="mt-3 text-3xl font-black">הישגים כסייף</h2>
+            <ul className="mt-5 space-y-3 leading-8 text-slate-200">
+              <li>אלוף ישראל בחרב יחידים 2008</li>
+              <li>אלוף ישראל בחרב יחידים 2009</li>
+              <li>אלוף ישראל בחרב קבוצות 2009</li>
+              <li>טופ 64 בגביע עולם חרב 2010</li>
+              <li>מחזיק גביע המדינה 2013</li>
+              <li>סגן מחזיק גביע המדינה 2017</li>
+            </ul>
           </div>
         </div>
       </section>

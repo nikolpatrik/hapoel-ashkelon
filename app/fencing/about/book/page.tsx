@@ -1,126 +1,91 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Navbar from "../../../../Navbar";
 
 const chapters = [
-  {
-    title: "1190 לפנה״ס — תחרות עם מסכה ושופטים",
-    text: "אחת העדויות הקדומות ביותר לסייף כתחרות מגיעה ממצרים העתיקה: תבליט במקדש מדינט האבו מתאר תחרות לחימה שאורגנה בימי רעמסס השלישי. המשתתפים השתמשו במקלות עם קצות הגנה, חלקם חבשו הגנת פנים, והאירוע כלל שופטים וקהל — שילוב מפתיע של בטיחות, תחרות וטקסיות שמזכיר את הספורט המודרני.",
-  },
-  {
-    title: "יוון ורומא — החרב הופכת למיומנות נלמדת",
-    text: "בעולם היווני התקיימה ההופלומכיה — לחימה בכלי נשק במסגרת אימון ותחרות. ברומא הפכה armatura לחלק מהכשרת החיילים, ומדריכי הנשק פיתחו שיטות לתרגול התקפה והגנה. גם כאשר המטרה הייתה צבאית, כבר נוצרה ההבנה שאפשר ללמד את השימוש בנשק כשיטה, ולא רק ככוח פיזי.",
-  },
-  {
-    title: "ימי הביניים — חרב, כבוד ודו־קרב",
-    text: "בימי הביניים הסייף היה חלק מחינוך האבירים ומאמנות הלחימה. בצרפת של המאות ה־12 וה־13 כבר פעלו מורים לסייף, וחלקם הכינו אנשים לדו־קרבות משפטיים. במשך מאות שנים החרב הייתה קשורה גם למעמד, לכבוד ולרעיון של משפט באמצעות דו־קרב — עד שהשיטות המשפטיות השתנו והדו־קרב הלך ונעלם.",
-  },
-  {
-    title: "הרנסנס — לידתו של בית הספר לסייף",
-    text: "במאות ה־15 וה־16 התרחש שינוי מכריע. המצאת אבק השריפה צמצמה את חשיבות השריון הכבד, וכלי הנשק נעשו קלים ומהירים יותר. באיטליה התפתחו בתי ספר מקצועיים לסייף, ומאסטרים כמו אכילה מרוצו, קמילו אגריפה ואחרים פרסמו ספרי לימוד שיטתיים. לראשונה הועבר ידע טכני של סייף בצורה מסודרת וכתובה.",
-  },
-  {
-    title: "מהראפייר לפלורט — הספורט נעשה בטוח יותר",
-    text: "במאות ה־17 וה־18 התפתח במיוחד הסייף הצרפתי. הרומח־הדק (rapier) הוחלף בהדרגה בחרב הקלה יותר, והפלורט (foil) שימש ככלי אימון ספורטיבי שתוכנן לתרגל דקירות במהירות ובבטיחות יחסית. כללים מוסכמים של התקפה והגנה הפכו את האימון והתחרות למובנים יותר.",
-  },
-  {
-    title: "1763 — הסייף מקבל זהות ספורטיבית",
-    text: "דומניקו אנג'לו, מאסטר איטלקי שפעל בלונדון, פתח בשנת 1763 בית ספר לסייף והדגיש לא רק את ההכנה לדו־קרב אלא גם את היתרונות הגופניים והחינוכיים של הספורט. ספרו L'École des armes הפך לאחד מספרי הסייף המשפיעים באירופה וסייע להפוך את הסייף למקצוע לימודי ולפעילות ספורטיבית של ממש.",
-  },
-  {
-    title: "המאה ה־19 — כללים, מועדונים ותחרויות",
-    text: "במאה ה־19 הסייף התרחק עוד יותר מהדו־קרב האמיתי והתקרב לספורט תחרותי. בתי ספר, מועדונים ואיגודים לאומיים התרחבו, שיטות ההוראה השתכללו ונוצר צורך בכללים אחידים. לקראת סוף המאה התקיימו תחרויות מסודרות, והסייף כבר היה ענף ספורט בינלאומי בעל זהות משלו.",
-  },
-  {
-    title: "1896–1936 — הדרך לאולימפיאדה המודרנית",
-    text: "הסייף היה בין הענפים שנכללו באולימפיאדת אתונה 1896. הדקר הצטרף בפריז 1900, תחרות קבוצתית הופיעה בתחילת המאה ה־20, ונשים נכנסו לראשונה לתוכנית האולימפית בפריז 1924 ברומח. בשנת 1936 הופעלה באולימפיאדה מערכת חשמלית לזיהוי פגיעות בדקר — צעד חשוב בדרך לסייף המודרני.",
-  },
-  {
-    title: "1913 — נולד הגוף שמאחד את הענף",
-    text: "ב־29 בנובמבר 1913, בקונגרס שנערך בפריז, הוכרזה הקמת הפדרציה הבינלאומית לסייף (FIE). בין המדינות המייסדות היו צרפת, בלגיה, גרמניה, בריטניה, איטליה, הולנד, הונגריה, נורבגיה וצ'כוסלובקיה. הקמת הפדרציה אפשרה לאחד חוקים ולבנות מסגרת בינלאומית יציבה לתחרויות.",
-  },
-  {
-    title: "נשים, חשמל וטכנולוגיה — הספורט משתנה",
-    text: "הכניסה של נשים לתחרויות הייתה הדרגתית: רומח לנשים הופיע באולימפיאדת 1924, תחרות קבוצתית לנשים ב־1960, דקר לנשים ב־1996 וחרב לנשים ב־2004. במקביל השתפרה מערכת הניקוד האלקטרונית, ובהמשך נוספו וידאו־ריפרינג וטכנולוגיות בקרה לציוד — כך שהספורט הפך מדויק ומהיר יותר גם מבחינה טכנולוגית.",
-  },
-  {
-    title: "1942–1958 — הסייף הישראלי מתחיל להיבנות",
-    text: "לפי איגוד הסיוף בישראל, בשנותיו הראשונות פעל הענף בעיקר בחיפה ובתל אביב ובמסגרת מועדונים קטנים. בשנת 1952 נפתח מועדון חדש ברמת גן ביוזמת האחים הדר ורן גרד והפך במהירות למרכז חשוב. בשנת 1958 יצאה נבחרת הסטודנטים של אס״א לפולין — אחת ההופעות הראשונות של ספורט ישראלי מעבר למסך הברזל והופעה בינלאומית ראשונה משמעותית של נבחרת סיוף ישראלית.",
-  },
-  {
-    title: "1960 — ישראל מגיעה לאולימפיאדה",
-    text: "ברומא 1960 הופיעו לראשונה סייפים ישראלים במשחקים האולימפיים. מיכאל רון ודוד ואן הלדר ייצגו את ישראל. ההשתתפות הזו סימנה מעבר חשוב: מענף שפעל בישראל במסגרות קטנות יחסית, הסייף הפך לענף שמכוון לבמה האולימפית.",
-  },
-  {
-    title: "1965 והלאה — בניית תשתית ארצית",
-    text: "ב־1965 מונה אמנון כרמי ליו״ר ועדת הסיוף. לפי איגוד הסיוף, תרומתו להתפשטות הענף הייתה משמעותית, ובשנות ה־60 המאוחרות נפתחו מועדונים ביישובים נוספים. בנו, אודי כרמי, המשיך את העשייה והיה מעורב בהקמת קורסים למאמנים. כך נוצרה בהדרגה תשתית של מועדונים, מאמנים וספורטאים ברחבי הארץ.",
-  },
-  {
-    title: "הישגים ישראליים — דור אחר דור",
-    text: "ההיסטוריה הישראלית כוללת שורה של הישגים בולטים: אודי כרמי הגיע למקום הרביעי באליפות העולם ברומח ב־1987; לידיה חטואל סיימה שביעית באליפות העולם ב־1991; תומר אור היה אלוף עולם לנוער, דורג בטופ 10 העולמי וזכה בשלושה גביעי עולם; דלילה חטואל זכתה במספר מדליות גביע עולם והגיעה פעמיים למקום השביעי באליפות אירופה; מאור חטואל זכה במקום השני באליפות אירופה לנוער ב־2005 ואורן בסל במקום השלישי באליפות העולם לנוער ב־2006.",
-  },
-  {
-    title: "הסייף הישראלי היום",
-    text: "ישראל ממשיכה להשתתף בזירה הבינלאומית ולשלוח סייפים למשחקים האולימפיים. לפי נתוני איגוד הסיוף, פועלים בישראל יותר מ־19 מועדונים, ממעלות בצפון ועד באר שבע בדרום. באולימפיאדת טוקיו 2020 ובפריז 2024 המשיכו סייפים ישראלים לייצג את המדינה; בפריז 2024 יובל פרייליך התחרה בדקר האישי.",
-  },
+  ["1190 לפנה״ס", "התחרות הקדומה ביותר", "במצרים העתיקה מתועד אירוע לחימה מאורגן בימי רעמסס השלישי. המשתתפים השתמשו במקלות בעלי קצות הגנה, חלקם לבשו הגנת פנים, והאירוע כלל שופטים וקהל. זה אינו הסייף המודרני, אך הוא אחת העדויות הקדומות לרעיון של לחימה שהופכת לתחרות."],
+  ["העת העתיקה", "יוון ורומא", "ביוון וברומא השימוש בכלי נשק הפך למיומנות שניתן ללמוד ולתרגל. אימוני נשק, תרגילי התקפה והגנה ומסגרות להכשרת לוחמים יצרו מסורת של הוראת לחימה — אחד השורשים הרחוקים של תרבות הסייף."],
+  ["ימי הביניים", "חרב, אבירות ודו־קרב", "החרב הייתה חלק מרכזי מחיי האבירים והפכה גם לסמל של מעמד וכבוד. מורים ללחימה לימדו טכניקות מסודרות, ובחלק מאירופה התקיימו דו־קרבות משפטיים. בהדרגה נוצרו מסורות כתובות ומועברות של עבודת חרב."],
+  ["מאות 15–16", "הרנסנס משנה הכול", "הרנסנס הביא פריחה של בתי ספר לסייף ושל ספרי לחימה. באיטליה פעלו מאסטרים כמו אכילה מרוצו וקמילו אגריפה, שתיארו בצורה שיטתית עבודת רגליים, קווים, מרחקים והתקפות. הסייף התחיל לקבל שפה מקצועית ומדויקת."],
+  ["1553", "אגריפה והגאומטריה של החרב", "בחיבורו של קמילו אגריפה הוצגה החרב כחלק ממערכת של זוויות, קווים ותנועות חסכוניות. הרעיון שהסייף דורש הבנה של מרחב ותזמון, ולא רק כוח, הפך לחלק מרכזי בהתפתחות המקצוע."],
+  ["המאה ה־17–18", "מהראפייר לפלורט", "כלי הנשק והדו־קרב השתנו. הראפייר הארוך פינה מקום לכלים קלים יותר, והפלורט בעל החוד המוגן שימש לאימון. כללי אימון הגבילו את אזורי הפגיעה ואת אופן ביצוע הדקירה, וכך התאפשרה תחרות בטוחה ומבוקרת יותר."],
+  ["1763", "דומניקו אנג'לו", "דומניקו אנג'לו הקים בלונדון בית ספר לסייף והדגיש יציבה, עבודת רגליים, דיוק ושליטה. ספרו L'École des armes הפך לאחד מחיבורי הסייף המשפיעים באירופה ועזר להציג את הסייף גם כפעילות גופנית וחינוכית."],
+  ["המאה ה־19", "מועדונים, חוקים ותחרויות", "הסייף התרחק עוד יותר מהדו־קרב המעשי. מועדונים ואיגודים לאומיים צמחו, ציוד המגן השתפר, ותחרויות קיבלו כללים ברורים יותר. הענף החל להתפתח מסורת של ספורט תחרותי בינלאומי ולא רק מקצוע של אנשי צבא ואצולה."],
+  ["1896–1900", "הכניסה לאולימפיאדה", "הסייף נכלל כבר במשחקים האולימפיים הראשונים של העת החדשה באתונה ב־1896. בפריז 1900 הורחבה התוכנית והדקר נכנס אליה. מכאן התחיל הקשר הקבוע בין הסייף לבין המשחקים האולימפיים."],
+  ["1913", "הקמת FIE", "ב־29 בנובמבר 1913 הוקמה בפריז הפדרציה הבינלאומית לסייף — FIE. גוף בינלאומי משותף אפשר למדינות לתאם חוקים, תחרויות וסטנדרטים, והענף קיבל מסגרת עולמית יציבה."],
+  ["1924–2004", "הסייף נפתח לכולם", "נשים נכנסו לתוכנית האולימפית לראשונה ברומח בפריז 1924. בהמשך נוספו תחרויות קבוצתיות, דקר לנשים ב־1996 וחרב לנשים ב־2004. כך הפכה התוכנית האולימפית לשלמה יותר, והסייף התבסס כענף לנשים ולגברים."],
+  ["1936 ואילך", "הטכנולוגיה נכנסת למסלול", "ב־1936 נעשה שימוש אולימפי במערכת חשמלית לזיהוי פגיעות בדקר. מערכות אלקטרוניות התפתחו מאז לכלי המרכזי בקביעת פגיעות, ובהמשך נוספו גם וידאו־ריפרינג ובדיקות ציוד מתקדמות."],
+  ["1942–1958", "הסייף נבנה בישראל", "לפי איגוד הסיוף בישראל, הענף פעל בשנותיו הראשונות בעיקר בחיפה ובתל אביב. בשנת 1952 הוקם מועדון ברמת גן, ובשנות ה־50 הגיעו מאמנים מאירופה וסייעו לבניית תשתית מקצועית. בשנת 1958 יצאה נבחרת הסטודנטים של אס״א לפולין, צעד משמעותי בדרך להשתלבות בינלאומית."],
+  ["1960–היום", "ישראל על הבמה העולמית", "ברומא 1960 השתתפו לראשונה סייפים ישראלים במשחקים האולימפיים. בעשורים הבאים התרחבו המועדונים, מערכי האימון והנבחרות, וסייפים ישראלים הגיעו להישגים באליפויות אירופה והעולם ובמשחקים האולימפיים."],
+  ["היום", "הסיפור ממשיך", "מהדו־קרב העתיק ועד המסלול האלקטרוני המודרני, הסייף השתנה שוב ושוב — אך נשאר משחק של מרחק, תזמון, החלטה ואופי. בכל אימון ובכל תחרות הדור הבא מוסיף עוד עמוד לסיפור. אולי העמוד הבא יהיה שלך."],
 ];
 
 export default function FencingHistoryBook() {
+  const [page, setPage] = useState(0);
+  const [turn, setTurn] = useState<"next" | "prev" | null>(null);
+
+  const go = (direction: "next" | "prev") => {
+    if (turn) return;
+    const target = direction === "next" ? page + 1 : page - 1;
+    if (target < 0 || target >= chapters.length) return;
+    setTurn(direction);
+    window.setTimeout(() => { setPage(target); setTurn(null); }, 720);
+  };
+
+  const chapter = chapters[page];
+  const previous = page > 0 ? chapters[page - 1] : null;
+  const next = page < chapters.length - 1 ? chapters[page + 1] : null;
+
   return (
     <main dir="rtl" className="page">
       <Navbar />
-      <section className="book-hero">
+      <section className="hero">
         <Link href="/fencing/about" className="back">← חזרה לעמוד על הסייף</Link>
         <div className="eyebrow">THE HISTORY OF FENCING</div>
         <h1>מסע בהיסטוריה<br /><span>של הסייף</span></h1>
-        <p>מהתחרות העתיקה במצרים, דרך בתי הספר של הרנסנס ועד האולימפיאדה והסיפור הישראלי — ההיסטוריה של הסייף היא סיפור של שינוי מתמיד.</p>
+        <p>פתחו את הספר ודפדפו בין התחנות שעיצבו את אחד מענפי הספורט העתיקים בעולם.</p>
       </section>
 
-      <section className="book-wrap">
-        <div className="book">
-          <div className="cover">
-            <div className="cover-mark">🤺</div>
-            <div className="cover-small">THE HISTORY OF</div>
-            <h2>FENCING</h2>
-            <div className="cover-line" />
-            <p>חרב • מסורת • ספורט • אולימפיאדה</p>
-          </div>
-          <div className="pages">
-            {chapters.map((chapter, index) => (
-              <article className="page-card" key={chapter.title}>
-                <span className="page-number">{String(index + 1).padStart(2, "0")}</span>
-                <div className="chapter-label">פרק {index + 1}</div>
-                <h2>{chapter.title}</h2>
-                <p>{chapter.text}</p>
-              </article>
-            ))}
+      <section className="library">
+        <div className="book" aria-label="ספר היסטוריה אינטראקטיבי">
+          <div className="cover-edge" />
+          <div className={`spread ${turn ? `is-${turn}` : ""}`}>
+            <button className="click-zone left-zone" onClick={() => go("next")} aria-label="עמוד הבא" />
+            <button className="click-zone right-zone" onClick={() => go("prev")} aria-label="עמוד קודם" />
+            <article className="paper left-paper">
+              <div className="chapter-label">הפרק הבא</div>
+              {next ? <><h3>{next[1]}</h3><div className="mini-rule" /><p>{next[2]}</p><span className="date">{next[0]}</span></> : <><h3>סוף המסע</h3><div className="mini-rule" /><p>ההיסטוריה ממשיכה להיכתב בכל אולם ובכל סייף צעיר.</p></>}
+              <span className="folio">{page * 2 + 2}</span>
+            </article>
+            <article className="paper right-paper">
+              <div className="chapter-label">פרק {String(page + 1).padStart(2, "0")} · {chapter[0]}</div>
+              <div className="ornament">✦</div>
+              <h2>{chapter[1]}</h2>
+              <div className="rule" />
+              <p>{chapter[2]}</p>
+              <span className="folio">{page * 2 + 1}</span>
+            </article>
+            <div className="page-turn" aria-hidden="true"><div className="turn-front" /><div className="turn-back" /></div>
+            <div className="gutter" />
           </div>
         </div>
-      </section>
 
-      <section className="sources">
-        <div className="sources-inner">
-          <div className="section-label">מקורות עיקריים</div>
-          <p>הפרקים מבוססים בעיקר על חומרי הפדרציה הבינלאומית לסייף (FIE) ועל ההיסטוריה הרשמית של איגוד הסיוף בישראל, בתוספת מקורות היסטוריים על התפתחות בתי הספר לסייף באירופה.</p>
+        <div className="controls">
+          <button onClick={() => go("prev")} disabled={page === 0 || !!turn}>→ הקודם</button>
+          <div className="counter"><strong>{page + 1}</strong> / {chapters.length}</div>
+          <button onClick={() => go("next")} disabled={page === chapters.length - 1 || !!turn}>הבא ←</button>
         </div>
-      </section>
-
-      <section className="end">
-        <Link href="/fencing/about" className="cta">← לחזור לעמוד על הסייף</Link>
+        <p className="hint">לחצו על פינות הספר או על הכפתורים כדי לדפדף</p>
       </section>
 
       <style jsx>{`
-        .page{min-height:100vh;background:#101a21;color:#17212a;font-family:Arial,sans-serif}
-        .book-hero{padding:100px 24px 65px;text-align:center;color:#fff;background:radial-gradient(circle at 50% 20%,#29404d,#101a21 65%)}
-        .back{position:absolute;right:28px;top:100px;color:#c8d5db;text-decoration:none;font-weight:700}.eyebrow{font-size:11px;letter-spacing:4px;color:#8fa6b3;font-weight:800;margin-bottom:24px}
-        h1{font-size:clamp(52px,8vw,100px);line-height:.95;margin:0;letter-spacing:-4px}h1 span{color:#19bbb7}.book-hero p{max-width:760px;margin:30px auto 0;color:#bdcbd2;font-size:18px;line-height:1.8}
-        .book-wrap{padding:60px 20px 90px;background:#0b1319}.book{width:min(1120px,100%);margin:auto;display:grid;grid-template-columns:360px 1fr;min-height:760px;box-shadow:0 35px 80px #0009;transform:perspective(1400px) rotateX(1deg)}
-        .cover{background:linear-gradient(145deg,#18303a,#071015);color:#fff;padding:70px 45px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border-right:5px solid #081015;box-shadow:inset -15px 0 30px #0006;position:sticky;top:20px;height:760px}.cover-mark{font-size:70px;margin-bottom:35px}.cover-small{font-size:10px;letter-spacing:4px;color:#8fa6b3}.cover h2{font-size:55px;letter-spacing:5px;margin:12px 0}.cover-line{width:70px;height:2px;background:#19bbb7;margin:8px 0 18px}.cover p{color:#aebdc5;font-size:13px}
-        .pages{background:#e9e1d1;padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative}.pages:before{content:"";position:absolute;left:50%;top:18px;bottom:18px;width:2px;background:#c6bca8;box-shadow:0 0 12px #8c817055}.page-card{background:#f8f3e8;padding:35px 30px;min-height:255px;position:relative;box-shadow:0 5px 16px #6d625622;border:1px solid #ded3c0}.page-number{position:absolute;left:22px;top:18px;color:#a29a8c;font-size:12px}.chapter-label{font-size:10px;letter-spacing:2px;color:#19a6a4;font-weight:800;margin-bottom:15px}.page-card h2{font-size:27px;line-height:1.2;margin:0 0 18px}.page-card p{font-size:15.5px;line-height:1.9;color:#4d5b62;margin:0}
-        .sources{background:#101a21;color:#c8d5db;padding:50px 24px}.sources-inner{max-width:900px;margin:auto}.sources .section-label{color:#7f99a6;font-size:11px;letter-spacing:2px;font-weight:800;margin-bottom:14px}.sources p{line-height:1.8;margin:0;font-size:14px}
-        .end{text-align:center;padding:60px 20px;background:#0b1319}.cta{display:inline-block;background:#19bbb7;color:#fff;text-decoration:none;padding:16px 25px;font-weight:800}
-        @media(max-width:800px){.book{grid-template-columns:1fr}.cover{position:relative;top:auto;min-height:420px;height:auto}.pages{grid-template-columns:1fr}.pages:before{display:none}.back{position:static;display:inline-block;margin-bottom:30px}.book-hero{padding-top:50px}}
+        .page{min-height:100vh;background:#0d151a;color:#20272b;font-family:Georgia,'Times New Roman',serif}.hero{padding:72px 24px 55px;text-align:center;color:#fff;background:radial-gradient(circle at 50% 10%,#304a57,#0d151a 68%);font-family:Arial,sans-serif}.back{display:inline-block;color:#cbd8dd;text-decoration:none;font-weight:700;margin-bottom:30px}.eyebrow{font-size:11px;letter-spacing:4px;color:#8ea8b5;font-weight:800;margin-bottom:18px}.hero h1{font-size:clamp(48px,7vw,86px);line-height:.96;letter-spacing:-4px;margin:0}.hero h1 span{color:#19bbb7}.hero p{max-width:650px;margin:22px auto 0;color:#c4d0d5;font-size:17px;line-height:1.8}
+        .library{padding:70px 18px 95px;background:radial-gradient(circle at 50% 35%,#2b4049 0,#10191f 52%,#080d11 100%);min-height:750px}.book{width:min(1160px,100%);height:650px;margin:auto;position:relative;filter:drop-shadow(0 38px 35px #000c);perspective:2200px}.book:before{content:"";position:absolute;inset:-13px;border-radius:6px;background:linear-gradient(145deg,#211107,#704a2b 45%,#190b04);box-shadow:inset 0 0 0 4px #8b6037,inset 0 0 0 7px #291307}.cover-edge{position:absolute;inset:0 50% 0 0;background:linear-gradient(90deg,#241208,#4a2c18,#1b0c05);border-radius:4px 0 0 4px;z-index:0}.spread{position:absolute;inset:8px;display:grid;grid-template-columns:1fr 1fr;transform-style:preserve-3d;overflow:hidden;background:#d8ccb8}.paper{position:relative;overflow:hidden;padding:64px 70px 48px;background:linear-gradient(100deg,#e8ddca,#faf5e9 22%,#f2e8d6);box-shadow:inset 0 0 30px #6b5b451c;line-height:2}.paper:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 31px,#8c7c6518 32px);pointer-events:none}.right-paper{grid-column:2;border-right:1px solid #c8baa2}.left-paper{grid-column:1;border-left:1px solid #c8baa2}.chapter-label{position:relative;z-index:1;font-family:Arial,sans-serif;font-size:10px;letter-spacing:2px;color:#9a784e;font-weight:800;text-transform:uppercase;margin-bottom:18px}.ornament{position:relative;z-index:1;font-size:27px;color:#b18a59;margin-bottom:8px}.paper h2,.paper h3{position:relative;z-index:1;color:#202a2e;line-height:1.12;margin:0 0 20px}.paper h2{font-size:43px}.paper h3{font-size:31px;margin-top:90px}.paper p{position:relative;z-index:1;color:#505552;font-size:17px;line-height:2.05;margin:0}.rule,.mini-rule{position:relative;z-index:1;width:90px;height:2px;background:#b58a55;margin-bottom:23px}.mini-rule{width:65px}.date{position:absolute;z-index:1;bottom:74px;left:70px;font:12px Arial,sans-serif;color:#a17e51;letter-spacing:1px}.folio{position:absolute;bottom:18px;color:#9a8c78;font:12px Arial,sans-serif}.right-paper .folio{right:34px}.left-paper .folio{left:34px}.gutter{position:absolute;z-index:12;left:50%;top:0;bottom:0;width:24px;transform:translateX(-50%);background:linear-gradient(90deg,#a6967d,#f7edda 35%,#8e806b 65%,#dfd1b9);box-shadow:0 0 18px #0005;pointer-events:none}.click-zone{position:absolute;z-index:20;top:0;bottom:0;width:9%;background:transparent;border:0;cursor:pointer}.click-zone:hover{background:#ffffff08}.left-zone{left:0}.right-zone{right:0}
+        .page-turn{position:absolute;z-index:15;inset:0 50% 0 0;transform-origin:right center;transform-style:preserve-3d;pointer-events:none;opacity:0}.is-next .page-turn{animation:turnNext .72s ease-in-out}.is-prev .page-turn{left:50%;right:0;transform-origin:left center;animation:turnPrev .72s ease-in-out}.turn-front,.turn-back{position:absolute;inset:0;background:linear-gradient(100deg,#e8ddca,#fff8ea);backface-visibility:hidden;box-shadow:0 0 25px #0004}.turn-back{transform:rotateY(180deg);background:linear-gradient(260deg,#e2d5c0,#faf2e2)}@keyframes turnNext{0%{opacity:1;transform:rotateY(0)}100%{opacity:1;transform:rotateY(-180deg)}}@keyframes turnPrev{0%{opacity:1;transform:rotateY(0)}100%{opacity:1;transform:rotateY(180deg)}}
+        .controls{display:flex;align-items:center;justify-content:center;gap:30px;margin-top:38px;font-family:Arial,sans-serif}.controls button{border:1px solid #61747c;background:#18272e;color:#fff;padding:13px 26px;border-radius:3px;font-weight:800;cursor:pointer;min-width:120px;transition:.2s}.controls button:hover:not(:disabled){background:#24404b;transform:translateY(-1px)}.controls button:disabled{opacity:.3;cursor:not-allowed}.counter{color:#c4d0d4;min-width:70px;text-align:center}.counter strong{font-size:22px;color:#fff}.hint{text-align:center;color:#71838c;font:12px Arial,sans-serif;margin-top:15px}
+        @media(max-width:760px){.hero{padding-top:45px}.book{height:600px}.spread{grid-template-columns:1fr}.left-paper{display:none}.right-paper{grid-column:1;border:0;padding:55px 35px}.gutter{display:none}.click-zone{width:14%}.right-paper h2{font-size:34px}.paper p{font-size:16px}.controls{gap:10px}.controls button{padding:11px 15px;min-width:95px}.date{left:35px}}
       `}</style>
     </main>
   );

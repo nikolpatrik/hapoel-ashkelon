@@ -19,7 +19,6 @@ export async function GET(request: NextRequest) {
   return new NextResponse(result.stream, {
     headers: {
       "Content-Type": result.blob.contentType || "video/mp4",
-      "Content-Length": String(result.blob.size ?? ""),
       "Accept-Ranges": "bytes",
       "X-Content-Type-Options": "nosniff",
       "Cache-Control": "public, max-age=3600, s-maxage=86400",

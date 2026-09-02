@@ -62,7 +62,8 @@ export async function GET(request: NextRequest) {
       headers: range ? { Range: range } : undefined,
     });
 
-    if (!result || (result.statusCode !== 200 && result.statusCode !== 206) || !result.stream) {
+    const statusCode = Number(result?.statusCode ?? 404);
+    if (!result || (statusCode !== 200 && statusCode !== 206) || !result.stream) {
       return new NextResponse("Not found", { status: 404 });
     }
 
@@ -80,7 +81,7 @@ export async function GET(request: NextRequest) {
     }
 
     return new NextResponse(result.stream, {
-      status: result.statusCode,
+      status: statusCode,
       headers,
     });
   } catch {

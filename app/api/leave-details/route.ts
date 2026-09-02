@@ -22,12 +22,11 @@ async function sendWhatsAppLead({ name, age, phone, sport }: {
     return { configured: false, ok: true };
   }
 
-  const url = `https://graph.facebook.com/${graphVersion}/${phoneNumberId}/messages`;
-
   if (!templateName) {
     throw new Error("WHATSAPP_TEMPLATE_NAME is not configured");
   }
 
+  const url = `https://graph.facebook.com/${graphVersion}/${phoneNumberId}/messages`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -77,63 +76,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // FormSubmit's AJAX endpoint returns a machine-readable JSON response and
-    // is more reliable for a server-to-server Vercel request than the normal
-    // browser redirect endpoint.
-    const submission = new FormData();
-    submission.append("name", name);
-    submission.append("age", age);
-    submission.append("phone", phone);
-    submission.append("sport", sport);
-    submission.append("_subject", `פנייה חדשה מהאתר – ${sport}`);
-    submission.append("_template", "table");
-    submission.append("_captcha", "false");
-
-    const emailResponse = await fetch("https://formsubmit.co/ajax/ash.sports2@gmail.com", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: submission,
-      cache: "no-store",
-    });
-
-    const emailBody = await emailResponse.text().catch(() => "");
-    if (!emailResponse.ok) {
-      console.error("FormSubmit error", emailResponse.status, emailBody);
-      return NextResponse.json(
-        { error: "Email service rejected the submission" },
-        { status: 502 },
-      );
-    }
-
-    let emailResult: { success?: string; message?: string } | null = null;
+    // Email delivery is handled directly by FormSubmit from the visitor's
+    // browser. This avoids FormSubmit's bot/Cloudflare protection blocking
+    // server-to-server requests from Vercel. This endpoint is only responsible
+    // for the optional WhatsApp notification.
+    let whatsappConfigured = false;
     try {
-      emailResult = JSON.parse(emailBody);
-    } catch {
-      // Some FormSubmit responses may be plain text; a successful HTTP status
-      // is enough to continue in that case.
-    }
-
-    if (emailResult?.success === "false") {
-      console.error("FormSubmit rejected lead", emailResult);
-      return NextResponse.json(
-        { error: emailResult.message || "Email service rejected the submission" },
-        { status: 502 },
-      );
-    }
-
-    try {
-      await sendWhatsAppLead({ name, age, phone, sport });
+      const result = await sendWhatsAppLead({ name, age, phone, sport });
+      whatsappConfigured = result.configured;
     } catch (error) {
       console.error("WhatsApp notification error", error);
-      // The lead has already been accepted by email. Do not make the user
-      // resubmit and risk creating a duplicate lead.
+      // Email submission is independent, so a WhatsApp failure must not make
+      // the visitor resubmit the form and create a duplicate lead.
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, whatsappConfigured });
   } catch (error) {
     console.error("Leave-details submission error", error);
-    return NextResponse.json({ error: "Unable to submit form" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to process form" }, { status: 500 });
   }
 }

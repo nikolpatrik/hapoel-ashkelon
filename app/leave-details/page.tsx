@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import Navbar from "../../Navbar";
 
+const FORM_SUBMIT_URL = "https://formsubmit.co/ajax/ash.sports2@gmail.com";
+
 export default function LeaveDetailsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -16,17 +18,34 @@ export default function LeaveDetailsPage() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    formData.append("_subject", `פנייה חדשה מהאתר – ${String(formData.get("sport") ?? "")}`);
+    formData.append("_template", "table");
+    formData.append("_captcha", "false");
+    formData.append("_url", window.location.href);
 
     try {
-      const response = await fetch("/api/leave-details", {
+      // Submit the email directly from the visitor's browser. FormSubmit
+      // supports cross-origin AJAX and this avoids Vercel/Cloudflare blocking
+      // server-to-server requests from the previous implementation.
+      const emailResponse = await fetch(FORM_SUBMIT_URL, {
         method: "POST",
+        headers: { Accept: "application/json" },
         body: formData,
       });
 
-      if (!response.ok) {
-        const result = await response.json().catch(() => null);
-        throw new Error(result?.error || "Submission failed");
+      const emailResult = await emailResponse.json().catch(() => null);
+      if (!emailResponse.ok || emailResult?.success === "false") {
+        throw new Error(emailResult?.message || "Email submission failed");
       }
+
+      // WhatsApp notification is independent of email delivery. A failure
+      // here must not make the visitor submit the same lead twice.
+      const whatsappData = new FormData(form);
+      fetch("/api/leave-details", {
+        method: "POST",
+        body: whatsappData,
+        keepalive: true,
+      }).catch(() => undefined);
 
       setSubmitted(true);
       form.reset();

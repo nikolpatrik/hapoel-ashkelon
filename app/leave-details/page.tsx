@@ -4,7 +4,51 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import Navbar from "../../Navbar";
 
-const FORM_SUBMIT_URL = "https://formsubmit.co/ajax/ash.sports2@gmail.com";
+const FORM_SUBMIT_AJAX_URL = "https://formsubmit.co/ajax/ash.sports2@gmail.com";
+const FORM_SUBMIT_URL = "https://formsubmit.co/ash.sports2@gmail.com";
+
+async function fallbackNativeSubmit(form: HTMLFormElement) {
+  const frameName = `formsubmit_${Date.now()}`;
+  const iframe = document.createElement("iframe");
+  iframe.name = frameName;
+  iframe.title = "Form submission";
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
+
+  const nativeForm = document.createElement("form");
+  nativeForm.action = FORM_SUBMIT_URL;
+  nativeForm.method = "POST";
+  nativeForm.target = frameName;
+  nativeForm.style.display = "none";
+
+  const data = new FormData(form);
+  const fields: Record<string, string> = {
+    name: String(data.get("name") ?? ""),
+    age: String(data.get("age") ?? ""),
+    phone: String(data.get("phone") ?? ""),
+    sport: String(data.get("sport") ?? ""),
+    _subject: `פנייה חדשה מהאתר – ${String(data.get("sport") ?? "")}`,
+    _template: "table",
+    _url: window.location.href,
+  };
+
+  Object.entries(fields).forEach(([name, value]) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    nativeForm.appendChild(input);
+  });
+
+  document.body.appendChild(nativeForm);
+  nativeForm.submit();
+
+  // FormSubmit processes the native POST inside the hidden iframe. Give it
+  // enough time to complete before showing the success state.
+  await new Promise((resolve) => window.setTimeout(resolve, 1800));
+  nativeForm.remove();
+  iframe.remove();
+}
 
 export default function LeaveDetailsPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -13,29 +57,57 @@ export default function LeaveDetailsPage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submitting) return;
+
     setSubmitting(true);
     setError("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    formData.append("_subject", `פנייה חדשה מהאתר – ${String(formData.get("sport") ?? "")}`);
-    formData.append("_template", "table");
-    formData.append("_captcha", "false");
-    formData.append("_url", window.location.href);
+    const payload = {
+      name: String(formData.get("name") ?? ""),
+      age: String(formData.get("age") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      sport: String(formData.get("sport") ?? ""),
+      _subject: `פנייה חדשה מהאתר – ${String(formData.get("sport") ?? "")}`,
+      _template: "table",
+      _url: window.location.href,
+    };
+
+    let emailDelivered = false;
 
     try {
-      // Submit the email directly from the visitor's browser. FormSubmit
-      // supports cross-origin AJAX and this avoids Vercel/Cloudflare blocking
-      // server-to-server requests from the previous implementation.
-      const emailResponse = await fetch(FORM_SUBMIT_URL, {
+      // FormSubmit officially supports cross-origin Fetch/AJAX. Use JSON,
+      // matching their documented Fetch integration.
+      const emailResponse = await fetch(FORM_SUBMIT_AJAX_URL, {
         method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
-      const emailResult = await emailResponse.json().catch(() => null);
-      if (!emailResponse.ok || emailResult?.success === "false") {
-        throw new Error(emailResult?.message || "Email submission failed");
+      const responseText = await emailResponse.text();
+      let emailResult: { success?: boolean | string; message?: string } | null = null;
+      try {
+        emailResult = JSON.parse(responseText);
+      } catch {
+        // Some service responses are not JSON; status code is enough to decide.
+      }
+
+      if (emailResponse.ok && emailResult?.success !== false && emailResult?.success !== "false") {
+        emailDelivered = true;
+      }
+    } catch {
+      // CORS/network restrictions can prevent browser AJAX even when the
+      // destination is reachable. Fall through to the native POST below.
+    }
+
+    try {
+      if (!emailDelivered) {
+        await fallbackNativeSubmit(form);
+        emailDelivered = true;
       }
 
       // WhatsApp notification is independent of email delivery. A failure
@@ -46,6 +118,8 @@ export default function LeaveDetailsPage() {
         body: whatsappData,
         keepalive: true,
       }).catch(() => undefined);
+
+      if (!emailDelivered) throw new Error("Email submission failed");
 
       setSubmitted(true);
       form.reset();
@@ -110,7 +184,7 @@ export default function LeaveDetailsPage() {
                     </select>
                   </div>
 
-                  {error && <p className="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-red-600">{error}</p>}
+                  {error && <p aria-live="polite" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-red-600">{error}</p>}
 
                   <button type="submit" disabled={submitting} className="w-full rounded-full bg-[#18b6b4] px-8 py-4 text-lg font-black text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#129da0] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60">{submitting ? "שולחים את הפרטים..." : "השאירו פרטים ונחזור אליכם"}</button>
                   <p className="text-center text-xs leading-6 text-slate-400">הפרטים ישמשו לצורך חזרה אליכם בנוגע לפעילות הספורטיבית שבחרתם.</p>

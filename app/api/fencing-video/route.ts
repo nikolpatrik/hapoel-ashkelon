@@ -1,8 +1,46 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { get } from "@vercel/blob";
+import { get, head } from "@vercel/blob";
 
 const ALLOWED = new Set(["fencing_1.mp4", "fencing_2.mp4", "fencing_3.mp4"]);
 const CANONICAL_HOST = "hapoel-ashkelon.vercel.app";
+
+function canonicalRedirect(request: NextRequest, pathname: string) {
+  const canonicalUrl = new URL(`https://${CANONICAL_HOST}/api/fencing-video`);
+  canonicalUrl.searchParams.set("pathname", pathname);
+  return NextResponse.redirect(canonicalUrl, 307);
+}
+
+export async function HEAD(request: NextRequest) {
+  const pathname = request.nextUrl.searchParams.get("pathname");
+
+  if (!pathname || !ALLOWED.has(pathname)) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  if (request.nextUrl.hostname !== CANONICAL_HOST) {
+    return canonicalRedirect(request, pathname);
+  }
+
+  try {
+    const blob = await head(pathname);
+    if (!blob) return new NextResponse(null, { status: 404 });
+
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        "Content-Type": blob.contentType || "video/mp4",
+        "Content-Length": String(blob.size),
+        "Accept-Ranges": "bytes",
+        ETag: blob.etag,
+        "Cache-Control": "public, max-age=3600, s-maxage=86400",
+        "Content-Disposition": "inline",
+        "X-Content-Type-Options": "nosniff",
+      },
+    });
+  } catch {
+    return new NextResponse(null, { status: 404 });
+  }
+}
 
 export async function GET(request: NextRequest) {
   const pathname = request.nextUrl.searchParams.get("pathname");
@@ -11,27 +49,41 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  // Only the canonical production project is connected to the private Blob store.
-  // Secondary Vercel deployments redirect media requests to the canonical API
-  // instead of attempting Blob access without credentials.
   if (request.nextUrl.hostname !== CANONICAL_HOST) {
-    const canonicalUrl = new URL(`https://${CANONICAL_HOST}/api/fencing-video`);
-    canonicalUrl.searchParams.set("pathname", pathname);
-    return NextResponse.redirect(canonicalUrl, 307);
+    return canonicalRedirect(request, pathname);
   }
 
-  const result = await get(pathname, { access: "private" });
+  try {
+    // Browsers (especially Safari/iOS) use HTTP Range requests for MP4 playback.
+    // Forward the Range header to Blob so seeking and progressive playback work.
+    const range = request.headers.get("range");
+    const result = await get(pathname, {
+      access: "private",
+      headers: range ? { Range: range } : undefined,
+    });
 
-  if (!result || result.statusCode !== 200) {
-    return new NextResponse("Not found", { status: 404 });
+    if (!result || (result.statusCode !== 200 && result.statusCode !== 206) || !result.stream) {
+      return new NextResponse("Not found", { status: 404 });
+    }
+
+    const headers = new Headers();
+    headers.set("Content-Type", result.blob.contentType || "video/mp4");
+    headers.set("Accept-Ranges", "bytes");
+    headers.set("Content-Disposition", "inline");
+    headers.set("X-Content-Type-Options", "nosniff");
+    headers.set("Cache-Control", "public, max-age=3600, s-maxage=86400");
+
+    // Preserve the range metadata returned by Vercel Blob.
+    for (const name of ["content-length", "content-range", "etag", "last-modified"]) {
+      const value = result.headers.get(name);
+      if (value) headers.set(name, value);
+    }
+
+    return new NextResponse(result.stream, {
+      status: result.statusCode,
+      headers,
+    });
+  } catch {
+    return new NextResponse("Video unavailable", { status: 503 });
   }
-
-  return new NextResponse(result.stream, {
-    headers: {
-      "Content-Type": result.blob.contentType || "video/mp4",
-      "Accept-Ranges": "bytes",
-      "X-Content-Type-Options": "nosniff",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
-    },
-  });
 }

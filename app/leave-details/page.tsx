@@ -1,133 +1,23 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import Link from "next/link";
+import { FormEvent } from "react";
 import Navbar from "../../Navbar";
 
-const FORM_SUBMIT_AJAX_URL = "https://formsubmit.co/ajax/ash.sports2@gmail.com";
 const FORM_SUBMIT_URL = "https://formsubmit.co/ash.sports2@gmail.com";
-
-async function fallbackNativeSubmit(form: HTMLFormElement) {
-  const frameName = `formsubmit_${Date.now()}`;
-  const iframe = document.createElement("iframe");
-  iframe.name = frameName;
-  iframe.title = "Form submission";
-  iframe.style.display = "none";
-  document.body.appendChild(iframe);
-
-  const nativeForm = document.createElement("form");
-  nativeForm.action = FORM_SUBMIT_URL;
-  nativeForm.method = "POST";
-  nativeForm.target = frameName;
-  nativeForm.style.display = "none";
-
-  const data = new FormData(form);
-  const fields: Record<string, string> = {
-    name: String(data.get("name") ?? ""),
-    age: String(data.get("age") ?? ""),
-    phone: String(data.get("phone") ?? ""),
-    sport: String(data.get("sport") ?? ""),
-    _subject: `פנייה חדשה מהאתר – ${String(data.get("sport") ?? "")}`,
-    _template: "table",
-    _url: window.location.href,
-  };
-
-  Object.entries(fields).forEach(([name, value]) => {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    nativeForm.appendChild(input);
-  });
-
-  document.body.appendChild(nativeForm);
-  nativeForm.submit();
-
-  // FormSubmit processes the native POST inside the hidden iframe. Give it
-  // enough time to complete before showing the success state.
-  await new Promise((resolve) => window.setTimeout(resolve, 1800));
-  nativeForm.remove();
-  iframe.remove();
-}
+const SUCCESS_URL = "https://hapoel-ashkelon.vercel.app/leave-details/success";
 
 export default function LeaveDetailsPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (submitting) return;
-
-    setSubmitting(true);
-    setError("");
-
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    // Let FormSubmit handle the actual POST/navigation. Send the optional
+    // WhatsApp notification in parallel so the visitor never gets blocked by it.
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const payload = {
-      name: String(formData.get("name") ?? ""),
-      age: String(formData.get("age") ?? ""),
-      phone: String(formData.get("phone") ?? ""),
-      sport: String(formData.get("sport") ?? ""),
-      _subject: `פנייה חדשה מהאתר – ${String(formData.get("sport") ?? "")}`,
-      _template: "table",
-      _url: window.location.href,
-    };
 
-    let emailDelivered = false;
-
-    try {
-      // FormSubmit officially supports cross-origin Fetch/AJAX. Use JSON,
-      // matching their documented Fetch integration.
-      const emailResponse = await fetch(FORM_SUBMIT_AJAX_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const responseText = await emailResponse.text();
-      let emailResult: { success?: boolean | string; message?: string } | null = null;
-      try {
-        emailResult = JSON.parse(responseText);
-      } catch {
-        // Some service responses are not JSON; status code is enough to decide.
-      }
-
-      if (emailResponse.ok && emailResult?.success !== false && emailResult?.success !== "false") {
-        emailDelivered = true;
-      }
-    } catch {
-      // CORS/network restrictions can prevent browser AJAX even when the
-      // destination is reachable. Fall through to the native POST below.
-    }
-
-    try {
-      if (!emailDelivered) {
-        await fallbackNativeSubmit(form);
-        emailDelivered = true;
-      }
-
-      // WhatsApp notification is independent of email delivery. A failure
-      // here must not make the visitor submit the same lead twice.
-      const whatsappData = new FormData(form);
-      fetch("/api/leave-details", {
-        method: "POST",
-        body: whatsappData,
-        keepalive: true,
-      }).catch(() => undefined);
-
-      if (!emailDelivered) throw new Error("Email submission failed");
-
-      setSubmitted(true);
-      form.reset();
-    } catch {
-      setError("אירעה תקלה בשליחת הפרטים. נסו שוב בעוד רגע.");
-    } finally {
-      setSubmitting(false);
-    }
+    void fetch("/api/leave-details", {
+      method: "POST",
+      body: formData,
+      keepalive: true,
+    }).catch(() => undefined);
   }
 
   return (
@@ -148,56 +38,48 @@ export default function LeaveDetailsPage() {
       <section className="px-6 py-16 md:py-24">
         <div className="mx-auto max-w-2xl">
           <div className="rounded-[32px] bg-white p-7 shadow-xl ring-1 ring-slate-100 md:p-10">
-            {!submitted ? (
-              <>
-                <div className="text-center">
-                  <div className="text-sm font-bold tracking-[0.2em] text-[#18b6b4]">LEAVE YOUR DETAILS</div>
-                  <h2 className="mt-3 text-3xl font-black text-[#102f47] md:text-4xl">השאירו פרטים ונחזור אליכם</h2>
-                  <p className="mt-4 leading-7 text-slate-500">מלאו את הפרטים ונציג מהעמותה יחזור אליכם בהקדם.</p>
-                </div>
+            <div className="text-center">
+              <div className="text-sm font-bold tracking-[0.2em] text-[#18b6b4]">LEAVE YOUR DETAILS</div>
+              <h2 className="mt-3 text-3xl font-black text-[#102f47] md:text-4xl">השאירו פרטים ונחזור אליכם</h2>
+              <p className="mt-4 leading-7 text-slate-500">מלאו את הפרטים ונציג מהעמותה יחזור אליכם בהקדם.</p>
+            </div>
 
-                <form onSubmit={handleSubmit} className="mt-10 space-y-6">
-                  <div>
-                    <label htmlFor="name" className="mb-2 block text-sm font-bold text-[#102f47]">שם מלא</label>
-                    <input id="name" name="name" type="text" required placeholder="הקלידו שם מלא" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10" />
-                  </div>
+            <form action={FORM_SUBMIT_URL} method="POST" onSubmit={handleSubmit} className="mt-10 space-y-6">
+              <input type="hidden" name="_subject" value="פנייה חדשה מהאתר – העמותה לקידום הספורט באשקלון" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value={SUCCESS_URL} />
+              <input type="hidden" name="_url" value="https://hapoel-ashkelon.vercel.app/leave-details" />
 
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="age" className="mb-2 block text-sm font-bold text-[#102f47]">גיל</label>
-                      <input id="age" name="age" type="number" min="1" max="120" required placeholder="גיל" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10" />
-                    </div>
-                    <div>
-                      <label htmlFor="phone" className="mb-2 block text-sm font-bold text-[#102f47]">מספר טלפון</label>
-                      <input id="phone" name="phone" type="tel" required placeholder="050-0000000" dir="ltr" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-left outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="sport" className="mb-2 block text-sm font-bold text-[#102f47]">ענף ספורט</label>
-                    <select id="sport" name="sport" required defaultValue="" className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10">
-                      <option value="" disabled>בחרו ענף ספורט</option>
-                      <option value="סייף">🤺 סייף</option>
-                      <option value="רוגבי">🏉 רוגבי</option>
-                      <option value="אגרוף">🥊 אגרוף</option>
-                      <option value="טניס שולחן">🏓 טניס שולחן</option>
-                    </select>
-                  </div>
-
-                  {error && <p aria-live="polite" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-red-600">{error}</p>}
-
-                  <button type="submit" disabled={submitting} className="w-full rounded-full bg-[#18b6b4] px-8 py-4 text-lg font-black text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#129da0] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60">{submitting ? "שולחים את הפרטים..." : "השאירו פרטים ונחזור אליכם"}</button>
-                  <p className="text-center text-xs leading-6 text-slate-400">הפרטים ישמשו לצורך חזרה אליכם בנוגע לפעילות הספורטיבית שבחרתם.</p>
-                </form>
-              </>
-            ) : (
-              <div className="py-12 text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#18b6b4]/10 text-4xl">✓</div>
-                <h2 className="mt-7 text-3xl font-black text-[#102f47]">תודה רבה!</h2>
-                <p className="mx-auto mt-4 max-w-md leading-8 text-slate-500">הפרטים התקבלו ונשלחו בהצלחה.<br />נחזור אליכם בהקדם.</p>
-                <Link href="/" className="mt-8 inline-flex rounded-full bg-[#18b6b4] px-8 py-4 font-bold text-white transition hover:bg-[#129da0]">חזרה לאתר</Link>
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-bold text-[#102f47]">שם מלא</label>
+                <input id="name" name="name" type="text" required placeholder="הקלידו שם מלא" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10" />
               </div>
-            )}
+
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="age" className="mb-2 block text-sm font-bold text-[#102f47]">גיל</label>
+                  <input id="age" name="age" type="number" min="1" max="120" required placeholder="גיל" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10" />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="mb-2 block text-sm font-bold text-[#102f47]">מספר טלפון</label>
+                  <input id="phone" name="phone" type="tel" required placeholder="050-0000000" dir="ltr" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-left outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10" />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="sport" className="mb-2 block text-sm font-bold text-[#102f47]">ענף ספורט</label>
+                <select id="sport" name="sport" required defaultValue="" className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right outline-none transition focus:border-[#18b6b4] focus:bg-white focus:ring-4 focus:ring-[#18b6b4]/10">
+                  <option value="" disabled>בחרו ענף ספורט</option>
+                  <option value="סייף">🤺 סייף</option>
+                  <option value="רוגבי">🏉 רוגבי</option>
+                  <option value="אגרוף">🥊 אגרוף</option>
+                  <option value="טניס שולחן">🏓 טניס שולחן</option>
+                </select>
+              </div>
+
+              <button type="submit" className="w-full rounded-full bg-[#18b6b4] px-8 py-4 text-lg font-black text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#129da0] hover:shadow-xl">השאירו פרטים ונחזור אליכם</button>
+              <p className="text-center text-xs leading-6 text-slate-400">הפרטים ישמשו לצורך חזרה אליכם בנוגע לפעילות הספורטיבית שבחרתם.</p>
+            </form>
           </div>
         </div>
       </section>
